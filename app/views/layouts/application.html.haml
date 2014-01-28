@@ -4,11 +4,17 @@
     %title Husys
   = stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true
   = javascript_include_tag "application", media: "all", "data-turbolinks-track" => true
-
   = csrf_meta_tags
 
   %body
     = render "shared/header"
-    #body
-      .container
-        = yield
+    .container.well
+      #body
+        - if user_signed_in?
+          .col-md-2.sidebar-offcanvas
+            = render "shared/navigation_list"
+          .col-md-10
+            = yield
+        - else
+          .col-md-12
+            = yield

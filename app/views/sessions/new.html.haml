@@ -1,6 +1,4 @@
-.container-fluid.hero-unit
-  .row-fluid
-    .span7
-      = link_to image_tag "home_sample.png"
-    .span5.well
-      = render "form"
+.col-md-8.col-sm-6.col-xs-12.well
+  = image_tag "home_sample.png", :class => 'land-image'
+.col-md-4
+  = render "form"

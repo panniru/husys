@@ -1,0 +1,14 @@
+= semantic_form_for @course, :html => { :multipart => true, :class => "form-horizontal" } do |form|
+  = form.semantic_errors
+  = form.inputs do
+    = form.autocomplete_field :category,
+      auto_search_autocomplete_course_category_path,
+      :placeholder => "Category"
+    = form.autocomplete_field :sub_course,
+      auto_search_autocomplete_course_sub_course_path,
+      :placeholder => "Sub Course"
+    = form.input :course_name
+    = form.input :exam_name
+    = form.input :duration
+    = form.input :no_of_questions
+  = form.action :submit, :class => 'btn btn-primary'

@@ -29,5 +29,7 @@ module Husys
     config.assets.precompile << /(^[^_]|\/[^_])[^\/]*/
     # if you prefer `.sass` over `.scss`.
     config.sass.preferred_syntax = :sass
+
+    config.autoload_paths += %W(#{Rails.root}/lib/)
   end
 end

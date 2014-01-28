@@ -11,10 +11,46 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140123102402) do
+ActiveRecord::Schema.define(version: 20140126062537) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "courses", force: true do |t|
+    t.string   "course_id"
+    t.string   "course_name"
+    t.string   "category"
+    t.string   "sub_course"
+    t.string   "exam_name"
+    t.float    "duration"
+    t.integer  "no_of_questions"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "exam_centers", force: true do |t|
+    t.string   "center_name"
+    t.string   "address_line1"
+    t.string   "address_line2"
+    t.string   "city"
+    t.string   "state"
+    t.string   "country"
+    t.string   "pin"
+    t.string   "center_email"
+    t.string   "phone"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "roles", force: true do |t|
+    t.string   "role"
+    t.string   "code"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false
@@ -28,6 +64,8 @@ ActiveRecord::Schema.define(version: 20140123102402) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "user_id"
+    t.integer  "role_id"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree

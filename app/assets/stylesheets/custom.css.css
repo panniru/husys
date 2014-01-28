@@ -1,0 +1,16 @@
+.logo {
+  height: 80px;
+  weight: 120px; }
+
+#body {
+  margin-top: 85px;
+  height: 700px; }
+
+#map img {
+  max-width: none; }
+
+body {
+  background: #eeeeee; }
+
+#map label {
+  width: auto; }

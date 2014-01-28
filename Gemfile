@@ -4,6 +4,7 @@ gem 'rails', '4.0.2'
 
 gem 'sass-rails', '>= 3.2'
 gem 'bootstrap-sass', '~> 3.0.3.0'
+gem 'formtastic-bootstrap'
 
 group :assets do
   gem 'uglifier', '>= 1.3.0'
@@ -26,6 +27,9 @@ gem 'will_paginate', '> 3.0'
 gem 'bootstrap-will_paginate'
 gem 'jquery-ui-rails'
 
+gem 'geocoder'
+gem 'gmaps4rails', '2.0.3'
+
 group :test do
   gem 'cucumber-rails', require: false
 end
@@ -40,4 +44,4 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'anticipate'
 end
-gem 'factory_girl_rails', '~> 1.7.0'
+gem 'factory_girl_rails', '~> 4.0'
