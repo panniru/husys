@@ -4,7 +4,7 @@ class GoogleMapProcessor
     Gmaps4rails.build_markers(centers) do |center, marker|
       marker.lat center.latitude
       marker.lng center.longitude
-      marker.infowindow center.exam_details
+      marker.infowindow center.full_address_html
     end
   end
 end

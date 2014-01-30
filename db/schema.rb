@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140126062537) do
+ActiveRecord::Schema.define(version: 20140130061521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -20,12 +20,20 @@ ActiveRecord::Schema.define(version: 20140126062537) do
     t.string   "course_id"
     t.string   "course_name"
     t.string   "category"
-    t.string   "sub_course"
+    t.string   "sub_category"
     t.string   "exam_name"
     t.float    "duration"
     t.integer  "no_of_questions"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "pass_criteria_1"
+    t.string   "pass_text_1"
+    t.string   "pass_criteria_2"
+    t.string   "pass_text_2"
+    t.string   "pass_criteria_3"
+    t.string   "pass_text_3"
+    t.string   "pass_criteria_4"
+    t.string   "pass_text_4"
   end
 
   create_table "exam_centers", force: true do |t|

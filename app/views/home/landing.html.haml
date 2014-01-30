@@ -1,13 +1,12 @@
 .col-md-5
-  .panel.panel-default
-    .panel-heading
-      %h4 Course Details
-    .panel-body
-      = link_to "New Course", "" , :class => 'btn btn-primary pull-right'
+  .page-header
+    %h3
+      = link_to "Course Details", courses_path
+  = render partial: "courses/course_hierarchy",:locals =>{ :data => @courses}
+  = link_to "New Course", new_course_path , :class => 'btn btn-primary pull-right'
 .col-md-7
-  .panel.panel-default
-    .panel-heading
-      %h4 Exam Centers
-    .panel-body
-      = render "shared/gmap"
-      = link_to "New Center", "" , :class => 'btn btn-primary pull-right'
+  .page-header
+    %h3
+      = link_to "Exam Centers", exam_centers_path
+  = render "shared/gmap"
+  = link_to "New Center", new_exam_center_path , :class => 'btn btn-primary pull-right'

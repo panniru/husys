@@ -1,0 +1,7 @@
+.tree
+  %ul
+    - data.each do |course|
+      %li
+        %span
+          %i.glyphicon.glyphicon-plus-sign.pointer{:data=> {:category =>course.category}, :onclick => 'CourseDrillHandler.getInstance().performDrill(event)'}
+          = course.category

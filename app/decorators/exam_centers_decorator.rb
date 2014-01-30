@@ -1,4 +1,4 @@
-class ExamCenterDecorator < Draper::Decorator
+class ExamCentersDecorator < Draper::Decorator
   delegate_all
 
   def exam_details
@@ -13,4 +13,17 @@ class ExamCenterDecorator < Draper::Decorator
     address << phone
     address.join("</br>")
   end
+
+  def localtion
+    "#{address_line1}, #{address_line2}"
+  end
+
+  def phone
+    phone ? phone.present? : "--"
+  end
+
+  def email
+    email ? email.present? : "--"
+  end
+
 end

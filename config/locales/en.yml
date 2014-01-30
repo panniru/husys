@@ -21,3 +21,9 @@
 
 en:
   hello: "Hello world"
+  exam_center:
+    create:
+      success: "Exam Center has been created"
+      fail: "Exam Center has not been created"
+    error:
+      gmap_error: "Cannot find Langitude & Latitude for given address"

@@ -1,0 +1,13 @@
+= semantic_form_for @exam_center, :html => { :multipart => true, :class => "form-horizontal" } do |form|
+  = form.semantic_errors
+  = form.inputs do
+    = form.input :center_name
+    = form.input :address_line1
+    = form.input :address_line2
+    = form.input :city
+    = form.input :state
+    -#= form.country :country
+    = form.input :pin
+    = form.input :center_email
+    = form.input :phone
+  = form.action :submit, :class => 'btn btn-primary'

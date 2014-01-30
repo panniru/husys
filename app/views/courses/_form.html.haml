@@ -1,14 +1,37 @@
 = semantic_form_for @course, :html => { :multipart => true, :class => "form-horizontal" } do |form|
   = form.semantic_errors
   = form.inputs do
-    = form.autocomplete_field :category,
-      auto_search_autocomplete_course_category_path,
-      :placeholder => "Category"
-    = form.autocomplete_field :sub_course,
-      auto_search_autocomplete_course_sub_course_path,
-      :placeholder => "Sub Course"
-    = form.input :course_name
-    = form.input :exam_name
-    = form.input :duration
-    = form.input :no_of_questions
+    .col-md-6.col-xs-6
+      = form.autocomplete_field :category,
+        auto_search_autocomplete_course_category_path,
+        :placeholder => "Category"
+      = form.autocomplete_field :sub_category,
+        auto_search_autocomplete_course_sub_category_path,
+        :placeholder => "Sub Course"
+      = form.input :course_name
+      = form.input :exam_name
+      = form.input :duration
+      = form.input :no_of_questions
+    .col-md-6.col-xs-6
+      .row
+        .col-md-6
+          = form.input :pass_criteria_1
+        .col-md-6
+          = form.input :pass_text_1
+      .row
+        .col-md-6
+          = form.input :pass_criteria_2
+        .col-md-6
+          = form.input :pass_text_2
+      .row
+        .col-md-6
+          = form.input :pass_criteria_3
+        .col-md-6
+          = form.input :pass_text_3
+      .row
+        .col-md-6
+          = form.input :pass_criteria_4
+        .col-md-6
+          = form.input :pass_text_4
+
   = form.action :submit, :class => 'btn btn-primary'

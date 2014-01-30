@@ -1,4 +1,18 @@
 module ApplicationHelper
+
+  def flash_alert_class(key)
+    key = 'danger' if key == :error
+    alert_class = ["alert"]
+    if key.to_s == "fail"
+      alert_class << "alert-danger"
+    elsif key == :notice
+      alert_class << "alert-info"
+    else
+      alert_class << "alert-#{key}"
+    end
+    alert_class.join(" ")
+  end
+
   def navigation_list
     list = []
     if true #current_user.admin?
@@ -11,11 +25,11 @@ module ApplicationHelper
   end
 
   def course_details
-    Struct.new(:icon, :item, :link, :is_active ).new('glyphicon glyphicon-book', 'Course Details', '#', true)
+    Struct.new(:icon, :item, :link, :is_active ).new('glyphicon glyphicon-book', 'Course Details', courses_path, true)
   end
 
   def exam_centers
-    Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-list-alt', 'Exam Centers', '#', false)
+    Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-list-alt', 'Exam Centers', exam_centers_path, false)
   end
 
   def upload_questions

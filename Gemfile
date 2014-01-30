@@ -23,12 +23,13 @@ gem 'draper'
 gem 'haml-rails'
 gem 'rails3-jquery-autocomplete'
 
-gem 'will_paginate', '> 3.0'
+gem 'will_paginate', '~> 3.0'
 gem 'bootstrap-will_paginate'
 gem 'jquery-ui-rails'
 
 gem 'geocoder'
 gem 'gmaps4rails', '2.0.3'
+gem 'gon'
 
 group :test do
   gem 'cucumber-rails', require: false
