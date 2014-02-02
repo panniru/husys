@@ -21,6 +21,27 @@ class AutoSearchController < ApplicationController
     render :json => json_for_autocomplete(items, :sub_category)
   end
 
+  def autocomplete_course_course_name
+    term = params[:term]
+    if term.present?
+      items = Course.select('distinct course_name').where("lower(courses.course_name) ILIKE '%#{term}%'").order(:course_name)
+    else
+      items = {}
+    end
+    render :json => json_for_autocomplete(items, :course_name)
+  end
+
+  def autocomplete_course_exam_name
+    term = params[:term]
+    if term.present?
+      items = Course.select('distinct exam_name').where("lower(courses.exam_name) ILIKE '%#{term}%'").order(:exam_name)
+    else
+      items = {}
+    end
+    render :json => json_for_autocomplete(items, :exam_name)
+  end
+
+
   def get_autocomplete_items(parameters)
     items = super(parameters)
   end

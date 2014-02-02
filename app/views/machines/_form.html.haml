@@ -1,0 +1,13 @@
+= form_for [@exam_center, @machine], :html => { :class => "form-horizontal", :role => "form" } do |f|
+  = render_errors(f.object)
+  .col-sm-8
+    .form-group
+      = f.label :machine_id, :class => 'col-sm-2 control-label'
+      .col-sm-8
+        = f.text_field :machine_id, :class => 'form-control', :autofocus => true
+    .form-group
+      = f.label :status, :class => 'col-sm-2 control-label'
+      .col-sm-8
+        = f.select :status, [['Active','active' ],['In-Active', 'in-active']],{}, :class => 'form-control'
+  .col-sm-8.pull-right
+    = f.submit "Create", :class => 'btn btn-primary'

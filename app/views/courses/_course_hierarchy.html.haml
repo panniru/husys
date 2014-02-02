@@ -3,5 +3,5 @@
     - data.each do |course|
       %li
         %span
-          %i.glyphicon.glyphicon-plus-sign.pointer{:data=> {:category =>course.category}, :onclick => 'CourseDrillHandler.getInstance().performDrill(event)'}
+          %i.glyphicon.glyphicon-plus-sign.pointer{:data=> {:view => 'sub_category', :filters => "#{course.category}" }, :onclick => 'CourseDrillHandler.getInstance().performDrill(event)'}
           = course.category

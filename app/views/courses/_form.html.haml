@@ -1,37 +1,59 @@
-= semantic_form_for @course, :html => { :multipart => true, :class => "form-horizontal" } do |form|
-  = form.semantic_errors
-  = form.inputs do
-    .col-md-6.col-xs-6
-      = form.autocomplete_field :category,
-        auto_search_autocomplete_course_category_path,
-        :placeholder => "Category"
-      = form.autocomplete_field :sub_category,
-        auto_search_autocomplete_course_sub_category_path,
-        :placeholder => "Sub Course"
-      = form.input :course_name
-      = form.input :exam_name
-      = form.input :duration
-      = form.input :no_of_questions
-    .col-md-6.col-xs-6
-      .row
-        .col-md-6
-          = form.input :pass_criteria_1
-        .col-md-6
-          = form.input :pass_text_1
-      .row
-        .col-md-6
-          = form.input :pass_criteria_2
-        .col-md-6
-          = form.input :pass_text_2
-      .row
-        .col-md-6
-          = form.input :pass_criteria_3
-        .col-md-6
-          = form.input :pass_text_3
-      .row
-        .col-md-6
-          = form.input :pass_criteria_4
-        .col-md-6
-          = form.input :pass_text_4
+= form_for @course, :html => { :multipart => true, :class => "form-horizontal", :role => "form" } do |f|
+  = render_errors(f.object)
+  .col-md-6.col-xs-6
+    .form-group
+      = f.label "Category", :class => 'col-sm-4 control-label'
+      .col-xs-8
+        = f.autocomplete_field :category,
+          auto_search_autocomplete_course_category_path,
+          :placeholder => "Category", :class => 'form-control'
+    .form-group
+      = f.label "Sub Category", :class => 'col-sm-4 control-label'
+      .col-xs-8
+        = f.autocomplete_field :sub_category,
+          auto_search_autocomplete_course_sub_category_path,
+          :placeholder => "Sub Course", :class => 'form-control'
+    .form-group
+      = f.label "Course", :class => 'col-sm-4 control-label'
+      .col-sm-8
+        = f.autocomplete_field :course_name,
+          auto_search_autocomplete_course_course_name_path,
+          :placeholder => "Course", :class => 'form-control'
+    .form-group
+      = f.label :exam_name, :class => 'col-sm-4 control-label'
+      .col-sm-8
+        = f.text_field :exam_name, :class => 'form-control', :autofocus => true
+    .form-group
+      = f.label :duration, :class => 'col-sm-4 control-label'
+      .col-sm-8
+        .input-group
+          = f.text_field :duration, :class => 'form-control', :autofocus => true
+          %span.input-group-addon Hrs
+    .form-group
+      = f.label :no_of_questions, :class => 'col-sm-4 control-label'
+      .col-sm-8
+        = f.text_field :no_of_questions, :class => 'form-control', :autofocus => true
 
-  = form.action :submit, :class => 'btn btn-primary'
+  .col-md-6.col-xs-6
+    .form-group
+      .col-md-6
+        = f.text_field :pass_criteria_1, :class => 'form-control', :placeholder => "Pass Criteria"
+      .col-md-6
+        = f.text_field :pass_text_1, :class => 'form-control', :placeholder => "Pass Text"
+    .form-group
+      .col-md-6
+        = f.text_field :pass_criteria_2, :class => 'form-control', :placeholder => "Pass Criteria"
+      .col-md-6
+        = f.text_field :pass_text_2, :class => 'form-control', :placeholder => "Pass Text"
+    .form-group
+      .col-md-6
+        = f.text_field :pass_criteria_3, :class => 'form-control', :placeholder => "Pass Criteria"
+      .col-md-6
+        = f.text_field :pass_text_3, :class => 'form-control', :placeholder => "Pass Text"
+    .form-group
+      .col-md-6
+        = f.text_field :pass_criteria_4, :class => 'form-control', :placeholder => "Pass Criteria"
+      .col-md-6
+        = f.text_field :pass_text_4, :class => 'form-control', :placeholder => "Pass Text"
+  .col-md-6.col-xs-6.pull-right
+    = f.submit "Create Course", :class => 'btn btn-primary'

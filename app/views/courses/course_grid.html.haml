@@ -1,0 +1,9 @@
+= render "header"
+%table.table.table-condensed
+  %thead
+    %th Category
+    %th Sub Category
+    %th Course
+    %th Exam Name
+  %tbody
+    = render :partial => "result", :collection => @courses, :as => :data

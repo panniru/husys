@@ -6,6 +6,9 @@
 
 %script{ :type => "text/javascript"}
   $(document).ready(function(){
+  $("#map").height(gon.height)
+  $("#map").width(gon.width)
+  $("#map-container").width(gon.width)
   handler = Gmaps.build('Google')
   handler.buildMap({ provider: {}, internal: {id: 'map'} }, function(){
   markers = handler.addMarkers(jQuery.parseJSON(gon.gmap_data))
@@ -14,5 +17,5 @@
   })
   })
 
-%div.container{ :style => 'width: 450px; text-align: center' }
-  #map.img-responsive.img-thumbnail{ :style => 'width: 450px; height: 400px;' }
+%div.container{ :id => 'map-container', :style => "text-align: center" }
+  #map.img-responsive.img-thumbnail

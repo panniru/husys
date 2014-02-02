@@ -19,4 +19,4 @@
 //= require bootstrap/affix
 
 //= require autocomplete-rails
-//= require_tree
+//= require_tree .

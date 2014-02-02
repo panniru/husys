@@ -1,5 +1,2 @@
-.page-header
-  %h3
-    = link_to "Course Details", courses_path
+= render "header"
 = render partial: "courses/course_hierarchy",:locals =>{ :data => @courses}
-= link_to "New Course", new_course_path , :class => 'btn btn-primary pull-right'

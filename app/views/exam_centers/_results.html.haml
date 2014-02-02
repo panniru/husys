@@ -1,7 +1,6 @@
-%table.table.table-condensed.table-bordered.table-striped
+%table.table.table-condensed
   %thead
     %tr
-      %th Id
       %th Name
       %th Location
       %th City
@@ -10,4 +9,4 @@
       %th Phone
       %th Email
   %tbody
-    = render :partial => 'exam_centers/center', :collection => @centers
+    = render :partial => 'exam_centers/center', :collection => @exam_centers, :as => :center

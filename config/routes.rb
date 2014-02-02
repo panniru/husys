@@ -6,12 +6,32 @@ Husys::Application.routes.draw do
   #   root to: "sessions#new"
   # end
   #end
-  resources :courses
-  resources :exam_centers
+
+  get "courses/hierarchy" => "courses#hierarchy"
+
+  resources :courses do
+    collection do
+      get 'search'
+    end
+    resources :questions do
+      collection do
+        get 'upload_new'
+        post 'upload'
+      end
+    end
+  end
+
+  resources :exam_centers do
+    resources :machines
+  end
 
   get 'auto_search/autocomplete_course_category'
   get 'auto_search/autocomplete_course_sub_category'
+  get 'auto_search/autocomplete_course_course_name'
+  get 'auto_search/autocomplete_course_exam_name'
 
   get "home/exam_centers_geo" => "home#exam_centers_geo"
+
+
   root :to => 'home#landing'
 end

@@ -2,6 +2,9 @@
   %h2 Exam Centers
 .alert.alert-info
   = page_entries_info @centers, model: "results", html: false
+
 = render "shared/gmap"
+%br
 = render 'results'
-= will_paginate @centers, param_name: "exam_center_page", previous_label: h("<"), next_label: h(">")
+
+= will_paginate @exam_centers, param_name: "exam_center_page", previous_label: h("<"), next_label: h(">")

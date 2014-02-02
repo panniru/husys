@@ -8,6 +8,8 @@ class ExamCenter < ActiveRecord::Base
   validates :latitude, :numericality => true
   validates :longitude, :numericality => true
 
+  has_many :machines
+
   def address_list
     address =[]
     address << self.address_line1
@@ -25,5 +27,16 @@ class ExamCenter < ActiveRecord::Base
     address_list.join("<br/>")
   end
 
-  private
+  def new_machine
+    machine = Machine.new
+    machine.exam_center = self
+    machine
+  end
+
+  def add_machine(params)
+    machine = Machine.new(params)
+    machine.exam_center = self
+    machine
+  end
+
 end

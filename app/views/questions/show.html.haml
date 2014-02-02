@@ -1,0 +1,30 @@
+.page-header
+  %h2
+    %small
+      = @question.description
+    .pull-right
+      = link_to "Edit", edit_course_question_path(@course, @question), :class => "btn btn-primary"
+      = link_to "Delete", course_question_path(@course, @question), :class => "btn btn-danger", :confirm => 'Are you sure?', :method => :delete
+
+
+.col-md-5
+  %table.table.table-bordered.table-reponsive
+    %tbody
+      %tr
+        %td.active Option 1
+        %td= @question.option_1
+      %tr
+        %td.active Option 2
+        %td= @question.option_2
+      %tr
+        %td.active Option 3
+        %td= @question.option_3
+      %tr
+        %td.active Option 4
+        %td= @question.option_4
+.col-md-5
+  %table.table.table-bordered
+    %tbody
+      %tr
+        %td.success Answer
+        %td= @question.answer

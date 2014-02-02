@@ -4,6 +4,8 @@ class HomeController < ApplicationController
     @exam_centers = ExamCentersDecorator.decorate_collection(ExamCenter.all)
     @map_data = GoogleMapProcessor.build_map_data(@exam_centers)
     gon.gmap_data = @map_data.to_json
+    gon.width = "450px"
+    gon.height = "450px"
   end
 
   def exam_centers_geo

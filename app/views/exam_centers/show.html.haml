@@ -1,25 +1,19 @@
 .page-header
-  %h2
+  %h3
     .col-md-6.col-xs-6
       %span{:style => "margin-left: -15px"}
         = @exam_center.center_name
     .col-md-4.col-xs-4.pull-right
-      = exam_center_action_bar
+      = exam_center_action_bar(@exam_center)
     %small
       %br
       = simple_format @exam_center.full_address_html
 
 
 
-.panel.panel-default
-  .panel-header
-    %h3 Machines
-  .panel-body
+%h3 Machines
 .row
   .col-md-6.col-xs-6
-    .panel.panel-default
-      .panel-header
-        %h3 Machines Registrations status
-      .panel-body
+    %h3 Machines Registrations status
   .col-md-6.col-xs-6
     = render partial: "shared/gmap", :locals => {:id => @exam_center.id}

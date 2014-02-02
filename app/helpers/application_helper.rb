@@ -24,6 +24,14 @@ module ApplicationHelper
     list
   end
 
+  def  render_errors( obj )
+    errors = []
+    obj.errors.full_messages.each do |message|
+      errors << content_tag("div", message, :class => "alert alert-danger")
+    end
+    raw(errors.join(""))
+  end
+
   def course_details
     Struct.new(:icon, :item, :link, :is_active ).new('glyphicon glyphicon-book', 'Course Details', courses_path, true)
   end

@@ -1,0 +1,7 @@
+%table.table.table-striped
+  %thead
+    %th Machine Id
+    %th Status
+    %th Action
+  %tbody
+    = render :partial => "machine", :collection => @machines, :as => :data

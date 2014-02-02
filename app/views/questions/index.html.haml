@@ -1,0 +1,6 @@
+.page-header
+  %h2
+    = link_to "Questions", "#"
+    .pull-right
+      = link_to "Add Question", new_course_question_path(@course), :class => "btn btn-primary"
+= render "results"
