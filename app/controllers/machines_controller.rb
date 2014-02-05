@@ -14,7 +14,7 @@
   def create
     @machine = @exam_center.add_machine(machine_params)
     if @machine.save
-      redirect_to exam_center_machines_path(@machine)
+      redirect_to exam_center_machines_path(@exam_center)
     else
       render "new"
     end

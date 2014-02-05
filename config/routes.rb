@@ -25,11 +25,22 @@ Husys::Application.routes.draw do
     resources :machines
   end
 
+  resources :registrations do
+    member do
+      get "exam"
+      post "exam"
+      get "review_exam"
+    end
+    collection do
+      get "avalable_slots"
+    end
+  end
+
   get 'auto_search/autocomplete_course_category'
   get 'auto_search/autocomplete_course_sub_category'
   get 'auto_search/autocomplete_course_course_name'
   get 'auto_search/autocomplete_course_exam_name'
-
+  get 'auto_search/autocomplete_exam_center_center_name'
   get "home/exam_centers_geo" => "home#exam_centers_geo"
 
 

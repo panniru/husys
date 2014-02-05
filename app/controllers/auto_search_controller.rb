@@ -1,6 +1,8 @@
 class AutoSearchController < ApplicationController
   skip_authorization_check
 
+  autocomplete :exam_center, :center_name, :full => true, :extra_data => [:address_line1, :address_line2, :city, :state], :display_value => :name_and_address_line1
+
   def autocomplete_course_category
     term = params[:term]
     if term.present?

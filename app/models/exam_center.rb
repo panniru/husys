@@ -27,6 +27,10 @@ class ExamCenter < ActiveRecord::Base
     address_list.join("<br/>")
   end
 
+  def name_and_address_line1
+    "#{center_name} #{address_line1}"
+  end
+
   def new_machine
     machine = Machine.new
     machine.exam_center = self

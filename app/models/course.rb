@@ -8,9 +8,9 @@ class Course < ActiveRecord::Base
   validates :no_of_questions, :presence => true
 
   has_many :questions
+  has_many :registraions
 
-  scope :grouped_category, { select: 'courses.category',
-  group: 'courses.category'}
+  scope :grouped_category, lambda { select('courses.category').group('courses.category')}
 
   scope :grouped_courses,  lambda {|group_by| select(group_by).group(group_by) }
 
@@ -25,4 +25,13 @@ class Course < ActiveRecord::Base
     question.course = self
     question
   end
+
+  def self.distinct_categories
+    categories = []
+    self.grouped_courses('category').order('category asc').each  do |cat|
+      categories << cat.category
+    end
+    categories
+  end
+
 end

@@ -1,0 +1,10 @@
+.col-sm-10
+  #grid_view{:style => 'display: none; ' }
+    .page-header
+      %h3 Slots
+    %table{:id => 'grid_data'}
+      %thead
+        - (9..19).each do |time|
+          -#.col-sm-1.bold-grey-font= time
+          %td.bold-grey-font= time
+      %tbody

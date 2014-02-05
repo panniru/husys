@@ -4,11 +4,11 @@ gem 'rails', '4.0.2'
 
 gem 'sass-rails', '>= 3.2'
 gem 'bootstrap-sass', '~> 3.0.3.0'
+gem 'jquery-ui-rails'
 
 group :assets do
   gem 'uglifier', '>= 1.3.0'
   gem 'coffee-rails', '~> 4.0.0'
-  gem 'jquery-rails'
   gem 'compass-rails'
 end
 
@@ -29,6 +29,7 @@ gem 'geocoder'
 gem 'gmaps4rails', '2.0.3'
 gem 'gon'
 gem 'roo'
+gem 'virtus'
 
 group :test do
   gem 'cucumber-rails', require: false

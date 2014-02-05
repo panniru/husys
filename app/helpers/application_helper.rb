@@ -15,11 +15,14 @@ module ApplicationHelper
 
   def navigation_list
     list = []
-    if true #current_user.admin?
+    if current_user.admin?
       list << course_details
       list << exam_centers
       list << upload_questions
       list << survey
+    elsif current_user.student?
+      list << registrations
+      list << results
     end
     list
   end
@@ -47,4 +50,13 @@ module ApplicationHelper
   def survey
     Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-filter', 'Survey', '#', false)
   end
+
+  def registrations
+    Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-calendar', 'Registrations', '#', true)
+  end
+
+  def results
+    Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-list-alt', 'Results', '#', false)
+  end
+
 end

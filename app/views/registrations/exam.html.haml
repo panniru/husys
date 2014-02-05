@@ -1,0 +1,30 @@
+.page-header
+  %h4
+    = "#{@question.active_question_no}. #{@question.description}"
+    .pull-right
+      = link_to "Submit", review_exam_registration_path(@registration), :class => "btn btn-primary"
+= form_tag(exam_registration_path(@registration), :method => "post", :id => "ol_exam") do
+  .radio
+    = radio_button_tag(:answer_caught, @question.option_1, @question.option_1 == @question.answer_caught)
+    = label_tag(:label_1, @question.option_1)
+  .radio
+    = radio_button_tag(:answer_caught, @question.option_2, @question.option_2 == @question.answer_caught)
+    = label_tag(:label_2, @question.option_2)
+  .radio
+    = radio_button_tag(:answer_caught, @question.option_3, @question.option_3 == @question.answer_caught)
+    = label_tag(:label_3, @question.option_3)
+  .radio
+    = radio_button_tag(:answer_caught, @question.option_4, @question.option_4 == @question.answer_caught)
+    = label_tag(:label_4, @question.option_4)
+    = hidden_field_tag :question_id, @question.question_id
+    = hidden_field_tag :action_for
+
+%ul.pager
+  %li.previous
+    %a{:rel => "question-nav-prev"}
+      %i.glyphicon.glyphicon-chevron-left
+      = "Prev"
+  %li.next
+    %a{:rel => "question-nav-next"}
+      = "Next"
+      %i.glyphicon.glyphicon-chevron-right

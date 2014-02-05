@@ -15,7 +15,6 @@ class window.RichMarkerBuilder extends Gmaps.Google.Builders.Marker #inherit fro
               width: "10px"
 
 @buildMap = ()->
-        alert('')
         $.getJSON('/home/exam_centers_geo', (centers) ->
                 handler = Gmaps.build('Google', { builders: { Marker: RichMarkerBuilder} }) #dependency injection
                 #then standard use

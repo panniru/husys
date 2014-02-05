@@ -1,0 +1,38 @@
+= form_for @registration, :html => { :class => "form-horizontal", :role => "form" } do |f|
+  = render_errors(f.object)
+  .col-sm-8
+    .form-group
+      = f.label "Exam Center", :class => 'col-sm-3 control-label'
+      .col-sm-6
+        = f.autocomplete_field :exam_center,
+        auto_search_autocomplete_exam_center_center_name_path,
+        :placeholder => "Exam Center Name", :class => 'form-control',
+        :id_element => "#exam_center_id"
+        = f.hidden_field :exam_center_id, :id => "exam_center_id"
+    .form-group
+      = f.label :category, :class => 'col-sm-3 control-label'
+      .col-sm-6
+        = f.select :category, @categories,{}, :class => 'form-control', :onchange => 'get_sub(event)', :id => "reg_cat"
+    .form-group
+      = f.label :sub_category, :class => 'col-sm-3 control-label'
+      .col-sm-6
+        = f.select :sub_category,[""],{}, :class => 'form-control', :onchange => 'get_course(event)', :id => "reg_sub_cat"
+    .form-group
+      = f.label :Course_name, :class => 'col-sm-3 control-label'
+      .col-sm-6
+        = f.select :course_name, [""],{}, :class => 'form-control', :onchange => 'get_exam(event)', :id => "reg_course"
+    .form-group
+      = f.label "Exam Name", :class => 'col-sm-3 control-label'
+      .col-sm-6
+        = f.select :course_id, [""],{}, :class => 'form-control', :id => "reg_exam_id"
+    .form-group
+      = f.label :exam_date, :class => 'col-sm-3 control-label'
+      .col-sm-4
+        = f.text_field :exam_date, :class => 'datepicker form-control', :id => "exam_date"
+        = f.hidden_field :exam_start_time, :id => "exam_start_time"
+      .col-sm-1
+        %span{:class => 'btn btn-danger btn-xs', :rel => "grid-availability"}
+          = "Get Availability"
+  = render "grid"
+  .col-sm-2.pull-right
+    = f.submit "Register", :class => 'btn btn-primary'

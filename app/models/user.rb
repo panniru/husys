@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
     self.role.role == 'exam_center'
   end
 
-  def student
+  def student?
     self.role.role == 'student'
   end
 

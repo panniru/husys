@@ -27,3 +27,8 @@ en:
       fail: "Exam Center has not been created"
     error:
       gmap_error: "Cannot find Langitude & Latitude for given address"
+  registration:
+    create:
+      machine: "Slot Cannot be allotted this time.."
+      success: "Registration has been successfulyy completed"
+      fail: "Registration has not been completed"
