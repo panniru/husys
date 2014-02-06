@@ -44,3 +44,13 @@ $ ->
         $("#action_for").val("prev")
         $("form#ol_exam").submit()
         )
+   $("[data-countdown]").each ->
+
+        $this = $(this)
+        finalDate = $(this).data("countdown")
+
+        $this.countdown finalDate, (event) ->
+                $this.html event.strftime("%D days %H:%M:%S")
+
+   $('a[ rel = "course_name"]').tooltip({animation: true, placement: 'bottom', html: true, delay: { show: 200, hide: 100 }})
+   $('a[ rel = "center_address"]').tooltip({animation: true, placement: 'bottom', html: true})

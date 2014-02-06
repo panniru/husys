@@ -6,6 +6,7 @@ class User < ActiveRecord::Base
   validates :email, :presence => true, :uniqueness => true
   validates :role_id, :presence => true
   belongs_to :role
+  has_many :registrations, :class_name => "Registration", :foreign_key => "student_id"
 
   # def create
   #   User.create(user_params)

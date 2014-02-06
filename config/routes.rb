@@ -30,6 +30,7 @@ Husys::Application.routes.draw do
       get "exam"
       post "exam"
       get "review_exam"
+      get "submit_exam"
     end
     collection do
       get "avalable_slots"

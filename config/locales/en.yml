@@ -32,3 +32,5 @@ en:
       machine: "Slot Cannot be allotted this time.."
       success: "Registration has been successfulyy completed"
       fail: "Registration has not been completed"
+    exam:
+      fail: "Cannot submit. Session Invalidated.."

@@ -1,9 +1,19 @@
 class RegistrationsController < ApplicationController
-  before_action :load_registration , :only => [:exam, :review_exam ]
+  before_action :load_registration , :only => [:show, :exam, :review_exam, :submit_exam]
+
+  def index
+    @registrations = current_user.registrations
+    @registrations = RegistrationsDecorator.decorate_collection(@registrations)
+  end
+
+  def show
+    @registration = RegistrationsDecorator.decorate(@registration)
+  end
 
   def new
     @registration = Registration.new
-    @categories = Course.distinct_categories
+    @categories = [""]
+    @categories << Course.distinct_categories
   end
 
   def create
@@ -17,11 +27,11 @@ class RegistrationsController < ApplicationController
       if @registration.save
         render 'show'
       else
-        flash[:fail] = I18n.t :fail, :scope => [:customer, :create]
+        flash[:fail] = I18n.t :fail, :scope => [:registration, :create]
         render "new"
       end
     else
-      flash[:fail] = I18n.t :machine, :scope => [:customer, :create]
+      flash[:fail] = I18n.t :machine, :scope => [:registration, :create]
       render "new"
     end
   end
@@ -44,7 +54,7 @@ class RegistrationsController < ApplicationController
   def exam
     prev_questions = session[:current_user_exam_questions]
     puts "initial===============>#{prev_questions}"
-
+    @course = @registration.course
     unless prev_questions.present?
       prev_questions = []
       session[:current_user_exam_questions] = prev_questions
@@ -60,22 +70,34 @@ class RegistrationsController < ApplicationController
       end
       prev_qtn.answer_caught = params[:answer_caught]
     end
-
     if params[:action_for] == "prev"
       @question = prev_qtn.active_question_no ==1 ? prev_qtn : prev_questions[prev_questions.index(prev_qtn)-1]
     else
-      if prev_qtn.present? and prev_questions[prev_questions.index(prev_qtn)+1].present?
-        @question = prev_questions[prev_questions.index(prev_qtn)+1]
+      if @course.no_of_questions == prev_questions.length
+        redirect_to review_exam_registration_path(@registration)
       else
-        @course = @registration.course
-        @question = RandomQuestionGenerator.generate_question(prev_questions, @course)
-        prev_questions << @question
+        if prev_qtn.present? and prev_questions[prev_questions.index(prev_qtn)+1].present?
+          @question = prev_questions[prev_questions.index(prev_qtn)+1]
+        else
+          @question = RandomQuestionGenerator.generate_question(prev_questions, @course)
+          prev_questions << @question
+        end
       end
     end
   end
 
   def review_exam
     @questions = session[:current_user_exam_questions]
+  end
+
+  def submit_exam
+    active_questions = session[:current_user_exam_questions]
+    if active_questions.present?
+      validator = ExamValidator.new(active_questions, @registration.id, @registration.course)
+      result = validator.validate
+    else
+      flash[:fail] = I18n.t :fail, :scope => [:registration, :exam]
+    end
   end
 
   private

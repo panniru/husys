@@ -15,4 +15,4 @@
               = link_to question.active_question_no, exam_registration_path(:id => @registration, :question_id =>question.question_id)
 .row
   .col-sm-3.pull-right
-    = link_to "Submit", "#", :class => "btn btn-primary"
+    = link_to "Submit", submit_exam_registration_path(@registration), :class => "btn btn-primary"

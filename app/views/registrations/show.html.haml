@@ -1,20 +1,24 @@
 %h3
   = link_to "Registrations", registrations_path
 .page-header
--#  %h3= @registration.student.user_id
+  %h3= @registration.student.user_id
 
--# %table.table.table-striped
--#   %thead
--#     %th Course
--#     %th Exam Center
--#     %th Registration Date
--#     %th Exam Date
--#     %th Time
--#     %th Status
--#   %tbody
--#     %tr
--#       %td= @registration.course.exam_name
--#       %td= @registration.exam_center.center_name
--#       %td= data.course_name
--#       %td= data.duration
--#       %td= data.no_of_questions
+%table.table.table-striped
+  %thead
+    %th Course
+    %th Exam Center
+    %th Registration Date
+    %th Exam Date
+    %th Time
+  %tbody
+    %tr
+      %td
+        = link_to @registration.course.exam_name, "#", {"data-toggle".to_sym => "tooltip", :rel => "course_name", "data-title".to_sym => @registration.course_details}
+      %td
+        = link_to @registration.exam_center.center_name, "#", {"data-toggle".to_sym => "tooltip", :rel => "center_address", "data-title".to_sym => @registration.center_address }
+      %td= @registration.formatted_registration_date
+      %td= @registration.formatted_exam_date
+      %td= @registration.exam_time
+
+
+= render "result"

@@ -9,6 +9,7 @@ class ExamCenter < ActiveRecord::Base
   validates :longitude, :numericality => true
 
   has_many :machines
+  has_many :registrations
 
   def address_list
     address =[]

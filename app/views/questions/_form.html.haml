@@ -1,5 +1,5 @@
 = form_for [@course, @question], :html => { :class => "form-horizontal", :role => "form" } do |f|
-  = f.object.errors.full_messages
+  = render_errors(f.object)
   .col-sm-8
     .form-group
       = f.label "Question", :class => 'col-sm-4 control-label'

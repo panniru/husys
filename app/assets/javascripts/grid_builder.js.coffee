@@ -8,19 +8,19 @@ class GridBuilder
   @buildGrid: ->
     exam_center = $("#exam_center_id").val()
     course_id = $("#reg_exam_id").val()
-    exam_date = $("#exam_date").val() #"02/03/2014"
+    exam_date = $("#exam_date").val()
     url = "/registrations/avalable_slots?exam_center_id="+exam_center+"&course_id="+course_id+"&exam_date="+exam_date
     $.getJSON(url, (data)->
-        str_html = "<tr>" #"<div>"
+        str_html = "<tr>"
         for number in [9..18]
-           str_html += "<td >" #"<div class='col-sm-1'>"
+           str_html += "<td >"
            if (data.indexOf(number) == -1)
                 str_html += "<span class = 'label label-danger pointer' rel = 'grid-element' data-start_time = '"+number+"'><i class = 'glyphicon glyphicon-thumbs-down' style='width:47px;'></i></span>"
            else
                 str_html += "<span class = 'label label-success pointer' rel = 'grid-element' data-start_time = '"+number+"'><i class = 'glyphicon glyphicon-thumbs-up' style='width:47px;'></i></span>"
-           str_html += "</td>" #"</div>&nbsp&nbsp"
+           str_html += "</td>"
 
-        str_html += "<td/>" #"<div class = 'col-sm-1'/>"
+        str_html += "<td/>"
         str_html += "</tr>"
         $("#grid_data tbody").html(str_html)
         $("#grid_view").show()

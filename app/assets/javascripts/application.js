@@ -4,6 +4,7 @@
 
 //= require underscore-min
 //= require gmaps/google
+//= require jquery.countdown
 
 //= require bootstrap/tooltip
 //= require bootstrap/scrollspy

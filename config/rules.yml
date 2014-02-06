@@ -1,0 +1,9 @@
+exam:
+  cutoff: 3
+  negative_mark: -1
+  total_questions: 5
+  positive_mark: 1
+  criteria_1: 80
+  criteria_2: 70
+  criteria_3: 60
+  criteria_4: 40

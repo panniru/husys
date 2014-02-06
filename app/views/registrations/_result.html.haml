@@ -1,0 +1,15 @@
+.page-header
+  %h3 Result
+
+%table.table.table-condensed
+  %thead
+    %th Marks Secured
+    %th Total Marks
+    %th Result
+    %th Remarks
+  %tbody
+    %tr
+      %td= @registration.result.marks_secured
+      %td= @registration.result.total_marks
+      %td= @registration.result.exam_result
+      %td= @registration.result.pass_text

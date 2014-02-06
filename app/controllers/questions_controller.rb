@@ -36,6 +36,7 @@ class QuestionsController < ApplicationController
   def upload
     @upload_question = QuestionUploader.new(params[:question_uploader])
     if @upload_question.save
+      redirect_to course_questions_path(@course)
     else
       render "upload_new"
     end

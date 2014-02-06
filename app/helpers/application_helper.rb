@@ -52,7 +52,7 @@ module ApplicationHelper
   end
 
   def registrations
-    Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-calendar', 'Registrations', '#', true)
+    Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-calendar', 'Registrations', registrations_path, true)
   end
 
   def results

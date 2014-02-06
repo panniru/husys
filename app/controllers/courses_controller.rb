@@ -34,6 +34,8 @@ class CoursesController < ApplicationController
     @course = Course.create(course_params)
     if @course.errors.present?
       render "new"
+    else
+      render "show"
     end
   end
 
