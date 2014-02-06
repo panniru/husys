@@ -22,7 +22,8 @@ module CoursesHelper
   end
 
   def question_btn_group(course)
-    upload = link_to "Upload Questions", upload_new_course_questions_path(course), :class => "btn btn-primary"
+    upload = link_to "Upload Questions", upload_new_course_questions_path(course)
+    add = link_to "Add Question", new_course_question_path(course)
     show = link_to "Show Question", course_questions_path(course), :class => "btn btn-primary"
     btn_group = "<div class='btn-group'>"
     btn_group += "#{show}"
@@ -32,7 +33,7 @@ module CoursesHelper
     btn_group += "<li class='divider'></li>"
     btn_group += "<li>#{upload}</li>"
     btn_group += "<li class='divider'></li>"
-    btn_group += "<li></li>"
+    btn_group += "<li>#{add}</li>"
     btn_group += "</ul>"
     btn_group += "</div>"
   end
