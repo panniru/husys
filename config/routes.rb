@@ -17,6 +17,7 @@ Husys::Application.routes.draw do
       collection do
         get 'upload_new'
         post 'upload'
+        get 'xls_template'
       end
     end
   end
@@ -31,6 +32,7 @@ Husys::Application.routes.draw do
       post "exam"
       get "review_exam"
       get "submit_exam"
+      get "init_registration_show"
     end
     collection do
       get "avalable_slots"

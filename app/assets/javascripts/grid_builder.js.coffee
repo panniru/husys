@@ -30,7 +30,7 @@ class GridBuilder
 
 $ ->
    $('body').on('click', 'span[rel = "grid-element"]', (event)->
-        $("#exam_start_time").val($(event.target).data('start_time'))
+        $("#exam_start_time").val($(this).data('start_time'))
         if ($(this).hasClass('label-success'))
              $( this ).prop( "disabled", true )
              $( this ).removeClass( "label-success")

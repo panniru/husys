@@ -9,6 +9,10 @@ class Question < ActiveRecord::Base
   belongs_to :course
 
 
-
-
+  def xls_template(options)
+    template_headers = ['description', 'option_1', 'option_2', 'option_3', 'option_4', 'answer']
+    CSV.generate(options) do |csv|
+      csv << attribute_names.select { |name| template_headers.include?name }
+    end
+  end
 end

@@ -35,7 +35,7 @@ GEM
       tzinfo (~> 0.3.37)
     addressable (2.3.5)
     anticipate (0.1.1)
-    arel (4.0.1)
+    arel (4.0.2)
     atomic (1.1.14)
     axiom-types (0.0.5)
       descendants_tracker (~> 0.0.1)
@@ -129,7 +129,7 @@ GEM
     jquery-rails (3.1.0)
       railties (>= 3.0, < 5.0)
       thor (>= 0.14, < 2.0)
-    jquery-ui-rails (4.1.1)
+    jquery-ui-rails (4.1.0)
       railties (>= 3.1.0)
     json (1.8.1)
     launchy (2.4.2)
@@ -256,7 +256,7 @@ DEPENDENCIES
   gon
   haml-rails
   jquery-rails
-  jquery-ui-rails
+  jquery-ui-rails (= 4.1.0)
   launchy
   pg
   rails (= 4.0.2)

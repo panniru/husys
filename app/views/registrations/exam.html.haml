@@ -2,7 +2,7 @@
   %h4
     = "#{@question.active_question_no}. #{@question.description}"
     .pull-right
-      = link_to "Submit", review_exam_registration_path(@registration), :class => "btn btn-primary"
+      = link_to "Submit", "#", :class => "btn btn-primary", :rel => "question-nav-submit"
 = form_tag(exam_registration_path(@registration), :method => "post", :id => "ol_exam") do
   .radio
     = radio_button_tag(:answer_caught, @question.option_1, @question.option_1 == @question.answer_caught)

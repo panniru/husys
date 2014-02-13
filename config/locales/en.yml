@@ -25,8 +25,24 @@ en:
     create:
       success: "Exam Center has been created"
       fail: "Exam Center has not been created"
+    destroy:
+      success: "Exam Center has been deleted"
+      fail: "Exam Center has not been deleted"
+    update:
+      success: "Exam Center has been updated"
+      fail: "Exam Center has not been updated"
     error:
       gmap_error: "Cannot find Langitude & Latitude for given address"
+  machine:
+    create:
+      success: "Machine has been added"
+      fail: "Machine has not been added"
+    destroy:
+      success: "Machine has been removed"
+      fail: "Machine has not been removed"
+    update:
+      success: "Machine has been updated"
+      fail: "Machine has not been updated"
   registration:
     create:
       machine: "Slot Cannot be allotted this time.."
@@ -34,3 +50,23 @@ en:
       fail: "Registration has not been completed"
     exam:
       fail: "Cannot submit. Session Invalidated.."
+  course:
+    create:
+      success: "Course has been created"
+      fail: "Course has not been created"
+    destroy:
+      success: "Course has been deleted"
+      fail: "Course has not been deleted"
+    update:
+      success: "Course has been updated"
+      fail: "Course has not been updated"
+  question:
+    create:
+      success: "Question has been added"
+      fail: "Question not been added"
+    destroy:
+      success: "Question has been removed"
+      fail: "Question has not been removed"
+    update:
+      success: "Question has been updated"
+      fail: "Question not been updated"

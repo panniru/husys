@@ -22,14 +22,11 @@ class RegistrationsDecorator < Draper::Decorator
   end
 
   def exam_time
-    exam_start_time
+    exam_start_time.strftime("%H:%M")
   end
 
   def count_exam_date
-    exam_date.strftime("%Y/%d/%m")
-  end
-
-  def status
+    "#{exam_date.strftime("%Y/%d/%m")} #{exam_start_time.strftime("%H:%M:%S")}"
   end
 
   def course_details

@@ -14,18 +14,32 @@
   def create
     @machine = @exam_center.add_machine(machine_params)
     if @machine.save
-      redirect_to exam_center_machines_path(@exam_center)
+      redirect_to exam_center_machines_path(@exam_center), notice: I18n.t(:success, :scope => [:machine, :create])
     else
+      flash.now[:fail] = I18n.t :fail, :scope => [:machine, :create]
       render "new"
     end
   end
 
   def update
     if @machine.update(machine_params)
-      redirect_to exam_center_machines_path(@machine)
-      else
+      redirect_to exam_center_machines_path(@machine), notice: I18n.t(:success, :scope => [:machine, :update])
+    else
+      flash.now[:fail] = I18n.t :fail, :scope => [:machine, :update]
       render "edit"
     end
+  end
+
+  def destroy
+    if @machine.destroy
+      redirect_to exam_center_machines_path(@exam_center), notice: I18n.t(:success, :scope => [:machine, :destroy])
+    else
+      flash[:fail] = I18n.t :fail, :scope => [:machine, :destroy]
+      redirect_to exam_center_machines_path(@machine), error: I18n.t(:fail, :scope => [:machine, :destroy])
+    end
+  end
+
+  def edit
   end
 
   private

@@ -1,5 +1,5 @@
 class RegistrationsController < ApplicationController
-  before_action :load_registration , :only => [:show, :exam, :review_exam, :submit_exam]
+  before_action :load_registration , :only => [:show, :exam, :review_exam, :submit_exam, :init_registration_show]
 
   def index
     @registrations = current_user.registrations
@@ -13,7 +13,7 @@ class RegistrationsController < ApplicationController
   def new
     @registration = Registration.new
     @categories = [""]
-    @categories << Course.distinct_categories
+    @categories.concat(Course.distinct_categories)
   end
 
   def create
@@ -25,7 +25,7 @@ class RegistrationsController < ApplicationController
       end_time = registration_params[:exam_start_time].to_i + course.duration.to_i
       @registration = Registration.create(registration_params.merge!(:machine_id => machine_id, :student_id => current_user.id, :exam_end_time => end_time.to_s, :registration_date => session[:system_date]))
       if @registration.save
-        render 'show'
+        redirect_to registrations_path
       else
         flash[:fail] = I18n.t :fail, :scope => [:registration, :create]
         render "new"
@@ -42,47 +42,38 @@ class RegistrationsController < ApplicationController
         exam_center = ExamCenter.find(params[:exam_center_id])
         date = Date.strptime(params[:exam_date], '%m/%d/%Y').strftime("%Y-%d-%m")
         grid = RegistrationProcessor.prepare_grid(date, exam_center)
-        puts "grid========>#{grid}"
         course = Course.find(params[:course_id])
         slots = RegistrationProcessor.matched_slots(grid, course.duration.to_i)
-        puts "slots========>#{slots}"
         render :json => slots
       end
-  end
+    end
   end
 
   def exam
-    prev_questions = session[:current_user_exam_questions]
-    puts "initial===============>#{prev_questions}"
+    selected_questions = session[:current_user_exam_questions]
     @course = @registration.course
-    unless prev_questions.present?
-      prev_questions = []
-      session[:current_user_exam_questions] = prev_questions
+    unless selected_questions.present?
+      selected_questions = RandomQuestionGenerator.generate_questions(@course)
+      session[:current_user_exam_questions] = selected_questions
     end
+    @question = RandomQuestionGenerator.next_question(params, selected_questions)
+    if @question.nil?
+      redirect_to review_exam_registration_path(@registration)
+    end
+  end
 
-    prev_qtn = nil
-    if params[:question_id].present?
-      prev_questions.each do |qtn|
-        if qtn.question_id.to_s == params[:question_id]
-          prev_qtn = qtn
-          break
-        end
-      end
-      prev_qtn.answer_caught = params[:answer_caught]
-    end
-    if params[:action_for] == "prev"
-      @question = prev_qtn.active_question_no ==1 ? prev_qtn : prev_questions[prev_questions.index(prev_qtn)-1]
-    else
-      if @course.no_of_questions == prev_questions.length
-        redirect_to review_exam_registration_path(@registration)
+  def init_registration_show
+    if @registration.exam_date.to_date == session[:system_date].to_date
+      start_time = @registration.exam_start_time.strftime("%H.%M").to_f - 10.0
+      end_time = @registration.exam_end_time.strftime("%H.%M").to_f
+      system_time = session[:system_date].strftime("%H.%M").to_f
+      if start_time <= system_time or system_time <= end_time
       else
-        if prev_qtn.present? and prev_questions[prev_questions.index(prev_qtn)+1].present?
-          @question = prev_questions[prev_questions.index(prev_qtn)+1]
-        else
-          @question = RandomQuestionGenerator.generate_question(prev_questions, @course)
-          prev_questions << @question
-        end
+        render "show"
       end
+    else
+      @registration = RegistrationsDecorator.decorate(@registration)
+      render "exam_land" #"show"
     end
   end
 
@@ -95,6 +86,7 @@ class RegistrationsController < ApplicationController
     if active_questions.present?
       validator = ExamValidator.new(active_questions, @registration.id, @registration.course)
       result = validator.validate
+      redirect_to @registration
     else
       flash[:fail] = I18n.t :fail, :scope => [:registration, :exam]
     end

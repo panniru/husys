@@ -2,6 +2,11 @@ class Registration < ActiveRecord::Base
 
   attr_accessor :category, :sub_category, :course_name
 
+  validates :exam_start_time, :presence => true
+  validates :exam_center, :presence => true
+  validates :course, :presence => true
+  validates :machine, :presence => true
+
   belongs_to :exam_center
   belongs_to :course
   belongs_to :machine

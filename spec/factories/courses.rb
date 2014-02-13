@@ -7,7 +7,7 @@ FactoryGirl.define do
     category "MyString"
     sub_course "MyString"
     exam_name "MyString"
-    duration 1.5
-    no_of_questions 1
+    duration 10
+    no_of_questions 5
   end
 end

@@ -17,7 +17,7 @@ class ExamCentersController < ApplicationController
   end
 
   def create
-    @exam_center = ExamCenter.create(exam_Center_params)
+    @exam_center = ExamCenter.create(exam_center_params)
     if @exam_center.errors.present?
       @exam_center.errors.each do |key, message|
         if key.to_s == 'latitude' or key.to_s == 'longitude'
@@ -34,13 +34,31 @@ class ExamCentersController < ApplicationController
     end
   end
 
-  def show
+  def destroy
+    if @exam_center.destroy
+      flash.now[:success] = I18n.t :success, :scope => [:exam_center, :destroy]
+      redirect_to exam_centers_path
+    else
+      flash.now[:fail] = I18n.t :fail, :scope => [:exam_center, :destroy]
+    end
+  end
 
+  def edit
+  end
+
+  def update
+    if @exam_center.update(exam_center_params)
+      flash.now[:success] = I18n.t :success, :scope => [:exam_center, :update]
+      render "show"
+    else
+      flash.now[:fail] = I18n.t :fail, :scope => [:exam_center, :update]
+      render "edit"
+    end
   end
 
   private
 
-  def exam_Center_params
+  def exam_center_params
     params.require(:exam_center).permit(:center_name, :address_line1, :address_line2, :city, :state, :country, :pin, :center_email, :phone)
   end
 

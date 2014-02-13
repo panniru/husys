@@ -18,6 +18,7 @@ module ApplicationHelper
 
   def navigation_list
     list = []
+    list << home
     if current_user.admin?
       list << course_details
       list << exam_centers
@@ -54,12 +55,21 @@ module ApplicationHelper
   end
 
   def registrations
-    Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-calendar', 'Registrations', registrations_path, true)
+    Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-calendar', 'Registrations', registrations_path, controller.controller_name == "registrations")
   end
 
   def results
     Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-list-alt', 'Results', '#', false)
   end
+
+  def home
+    Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-home', 'Home', root_path, is_home_active?)
+  end
+
+  def is_home_active?
+    controller.controller_name == "home"
+  end
+
 
   def is_course_active?
     COURSE_CONROLLERS.include?(controller.class.name)
@@ -67,6 +77,19 @@ module ApplicationHelper
 
   def is_exam_centers_active?
     EXAM_CENTERS_CONROLLERS.include?(controller.class.name)
+  end
+
+  def bread_crumbs
+    list = []
+    url_parts = request.fullpath[1, request.fullpath.length].split('/')
+    url = ""
+    url_parts.each do |part|
+      url += "/#{part}"
+      item = part.partition('?').first.titleize
+      klass = url_parts.last == part ? 'active' : ''
+      list << Struct.new(:item, :link, :klass).new( item, url, klass)
+    end
+    list
   end
 
 end

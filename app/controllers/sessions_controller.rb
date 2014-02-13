@@ -1,6 +1,6 @@
 class SessionsController  < Devise::SessionsController
   def create
-    session[:system_date] = Date.today
+    session[:system_date] = DateTime.now
     super
   end
 end

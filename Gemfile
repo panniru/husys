@@ -4,7 +4,7 @@ gem 'rails', '4.0.2'
 
 gem 'sass-rails', '>= 3.2'
 gem 'bootstrap-sass', '~> 3.0.3.0'
-gem 'jquery-ui-rails'
+
 
 group :assets do
   gem 'uglifier', '>= 1.3.0'
@@ -15,6 +15,7 @@ end
 gem 'turbolinks'
 gem 'pg'
 gem 'jquery-rails'
+gem 'jquery-ui-rails', '4.1.0'
 gem 'cancan', '1.6.7'
 gem 'devise'
 gem 'draper'
@@ -23,7 +24,6 @@ gem 'rails3-jquery-autocomplete'
 
 gem 'will_paginate', '~> 3.0'
 gem 'bootstrap-will_paginate'
-gem 'jquery-ui-rails'
 
 gem 'geocoder'
 gem 'gmaps4rails', '2.0.3'

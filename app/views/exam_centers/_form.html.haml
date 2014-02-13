@@ -2,36 +2,40 @@
   = render_errors(f.object)
   .form-group
     = f.label :center_name, :class => 'col-sm-2 control-label'
-    .col-sm-8
+    .col-sm-6
       = f.text_field :center_name, :class => 'form-control', :autofocus => true
   .form-group
     = f.label :address_line1, :class => 'col-sm-2 control-label'
-    .col-sm-8
+    .col-sm-6
+      = f.text_field :address_line1, :class => 'form-control'
+  .form-group
+    = f.label :address_line2, :class => 'col-sm-2 control-label'
+    .col-sm-6
       = f.text_field :address_line2, :class => 'form-control'
   .form-group
     = f.label :city, :class => 'col-sm-2 control-label'
-    .col-sm-8
+    .col-sm-6
       = f.text_field :city, :class => 'form-control'
   .form-group
     = f.label :state, :class => 'col-sm-2 control-label'
-    .col-sm-8
+    .col-sm-6
       = f.text_field :state, :class => 'form-control'
   .form-group
     = f.label :country, :class => 'col-sm-2 control-label'
-    .col-sm-8
+    .col-sm-6
       = f.text_field :country, :class => 'form-control'
   .form-group
     = f.label :pin, :class => 'col-sm-2 control-label'
-    .col-sm-8
+    .col-sm-6
       = f.text_field :pin, :class => 'form-control'
   .form-group
     = f.label :phone, :class => 'col-sm-2 control-label'
-    .col-sm-8
+    .col-sm-6
       = f.text_field :phone, :class => 'form-control'
   .form-group
     = f.label "Email", :class => 'col-sm-2 control-label'
-    .col-sm-8
+    .col-sm-6
       = f.text_field :center_email, :class => 'form-control'
 
   .col-md-6.col-xs-6.pull-right
-    = f.submit "Create Course", :class => 'btn btn-primary'
+    = f.submit "Create Center", :class => 'btn btn-primary'

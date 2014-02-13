@@ -1,5 +1,8 @@
 .page-header
-  %h2 Exam Centers
+  %h2
+    = "Exam Centers"
+    .pull-right
+      = link_to "Add Center", new_exam_center_path, :class => "btn btn-primary"
 .alert.alert-info
   = page_entries_info @centers, model: "results", html: false
 

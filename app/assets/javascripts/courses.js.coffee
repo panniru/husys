@@ -1,10 +1,12 @@
 class window.CourseDrillHandler
   @instance = null
+  level_spans = ["label-danger ", "label-success", "label-info", "label-default"]
   @getInstance:  ->
     if !@instance
         @instance = new CourseDrillHandler()
     @instance
   performDrill: (event)->
+
     filters = $(event.target).attr("data-filters")
     view_by = $(event.target).attr("data-view")
     parent = $(event.target).parent("span").parent('li')
@@ -25,10 +27,16 @@ class window.CourseDrillHandler
                 ul = $('<ul/>').appendTo(parent)
                 $.each(data, (i) ->
                         child_filter = filters+","+data[i].value
+                        level = filters.split(',').length
                         li = $('<li/>').css({ display: "none" }).appendTo(ul)
-                        span = $('<span/>').appendTo(li)
-                        icon = $('<i/>').addClass('glyphicon glyphicon-plus-sign pointer').click( (e) -> CourseDrillHandler.getInstance().performDrill(e)).attr('data-view', data[i].next_column).attr('data-filters', child_filter).appendTo(span)
-                        content = $('<a/>').text(data[i].value).appendTo(span)
+                        span = $('<span/>').appendTo(li) #.addClass(level_spans[level])
+                        icon = $('<i/>').appendTo(span)
+                        if (level == 3)
+                                content= $('<a/>').attr("href", "/courses/"+data[i].id).text(data[i].value).appendTo(span)
+                                icon.addClass('glyphicon glyphicon-minus-sign pointer')
+                        else
+                                content = $('<font/>').text(data[i].value).appendTo(span)
+                                icon.addClass('glyphicon glyphicon-plus-sign pointer').click( (e) -> CourseDrillHandler.getInstance().performDrill(e)).attr('data-view', data[i].next_column).attr('data-filters', child_filter)
                 )
                 children = parent.find(" > ul > li")
                 children.show "fast"

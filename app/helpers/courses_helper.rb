@@ -2,8 +2,8 @@ module CoursesHelper
 
   def course_action_bar(course)
     buttons = []
-    buttons << edit_btn(course)
-    buttons << delete_btn(course)
+    buttons << edit_course(course)
+    buttons << delete_course(course)
     buttons << question_btn_group(course)
     content_tag(:div,raw(buttons.join(" ")))
   end
@@ -12,13 +12,13 @@ module CoursesHelper
     link_to "New Course", new_course_path, :class => "btn btn-primary"
   end
 
-
-  def edit_btn(course)
+  private
+  def edit_course(course)
     link_to "Edit", edit_course_path(course), :class => "btn btn-success"
   end
 
-  def delete_btn(course)
-    link_to "Delete", course, :class => "btn btn-danger", :method => :destroy
+  def delete_course(course)
+    link_to "Delete", course, :class => "btn btn-danger", :data => { :confirm => 'Are You Sure ?', :method => :delete }
   end
 
   def question_btn_group(course)

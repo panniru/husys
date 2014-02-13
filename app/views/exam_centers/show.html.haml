@@ -9,11 +9,9 @@
       %br
       = simple_format @exam_center.full_address_html
 
-
-
 %h3 Machines
 .row
   .col-md-6.col-xs-6
-    %h3 Machines Registrations status
+    = render "machines/results", :machines => @exam_center.machines
   .col-md-6.col-xs-6
     = render partial: "shared/gmap", :locals => {:id => @exam_center.id}

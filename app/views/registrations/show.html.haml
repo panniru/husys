@@ -20,5 +20,5 @@
       %td= @registration.formatted_exam_date
       %td= @registration.exam_time
 
-
-= render "result"
+- if @registration.result.present?
+  = render "result"

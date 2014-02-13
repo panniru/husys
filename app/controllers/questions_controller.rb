@@ -42,6 +42,13 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def xls_template
+    @question = Question.new
+    respond_to do |format|
+      format.xls { send_data @question.xls_template(col_sep: "\t")}
+    end
+  end
+
   private
 
   def load_course

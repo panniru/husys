@@ -1,6 +1,6 @@
 class CoursePresenter
 
-  HIERARCHY_SEQ = ['category', 'sub_category', 'course_name']
+  HIERARCHY_SEQ = ['category', 'sub_category', 'course_name', 'exam_name']
 
   def initialize(courses = [])
     @courses = courses
@@ -11,9 +11,8 @@ class CoursePresenter
     @courses.each do |course|
       next_col = nil
       if column.present? and HIERARCHY_SEQ.last != column
-        next_col = HIERARCHY_SEQ[ HIERARCHY_SEQ.index(column).next ]
+        next_col = HIERARCHY_SEQ[HIERARCHY_SEQ.index(column).next]
       end
-      column = "exam_name" unless column.present?
       elements << {id: course.id, value: course[column.to_sym], next_column: next_col}
     end
     elements
