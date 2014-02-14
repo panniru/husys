@@ -22,7 +22,7 @@ window.get_course = (event) ->
 
 window.get_exam = (event) ->
         filter = $("#reg_cat").val()+","+$("#reg_sub_cat").val()+","+$(event.target).val()
-        url = "/courses/hierarchy?filters="+filter
+        url = "/courses/hierarchy?view_by=exam_name&filters="+filter
         $.getJSON(url, (data)->
                 parent = $("#reg_exam_id")
                 parent.empty().append("<option value = ' '> </option>")
