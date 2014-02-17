@@ -6,4 +6,6 @@ class Machine < ActiveRecord::Base
   belongs_to :exam_center
   has_many :registrations
 
+  scope :active, where(:status => "active")
+
 end

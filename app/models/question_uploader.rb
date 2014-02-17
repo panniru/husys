@@ -20,9 +20,7 @@ class QuestionUploader
   end
 
   def save
-
     if imported_questions.map(&:valid?).all?
-      puts "==============>true"
       imported_questions.each(&:save!)
       true
     else

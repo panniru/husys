@@ -1,5 +1,6 @@
 class CoursesController < ApplicationController
   before_action :load_course, :only => [:show, :update, :destroy, :edit]
+  authorize_resource
 
   def index
     @courses = Course.grouped_category

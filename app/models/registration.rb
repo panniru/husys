@@ -6,6 +6,7 @@ class Registration < ActiveRecord::Base
   validates :exam_center, :presence => true
   validates :course, :presence => true
   validates :machine, :presence => true
+  validate :exam_date_validation
 
   belongs_to :exam_center
   belongs_to :course
@@ -14,5 +15,13 @@ class Registration < ActiveRecord::Base
   has_one :result
 
   scope :dated_on, lambda {|date| where("exam_date = ?", date)}
+
+  private
+
+  def exam_date_validation
+    unless exam_date.present? and exam_date.to_date >= DateTime.now.to_date
+      self.errors.add(:exam_date, I18n.t(:exam_date, :scope => [:registration, :create]) )
+    end
+  end
 
 end

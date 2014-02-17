@@ -4,7 +4,7 @@ module ExamCentersHelper
     buttons = []
     buttons << edit_exam_center(center)
     buttons << delete_btn(center)
-    buttons << machine_group(center)
+    buttons << machine_group(center) if can? :create, Machine
     content_tag(:div,raw(buttons.join(" ")))
   end
 
@@ -29,12 +29,23 @@ module ExamCentersHelper
     btn_group += "<button type='button' class='btn btn-primary dropdown-toggle' data-toggle='dropdown'><span class='caret'></span><span class='sr-only'>Toggle Dropdown</span></button>"
     btn_group += "<ul class='dropdown-menu' role='menu>"
     btn_group += "<li></li>"
-    btn_group += "<li class='divider'></li>"
-    btn_group += "<li><a href='#'>Machine Status</a></li>"
+    #btn_group += "<li class='divider'></li>"
+    #btn_group += "<li><a href='#'>Machine Status</a></li>"
     #btn_group += "<li class='divider'></li>"
     btn_group += "</ul>"
     btn_group += "</div>"
   end
+
+  def machine_avialability(slot)
+    klass = "label label-danger"
+    icon = "glyphicon glyphicon-thumbs-down"
+    if slot
+      klass = "label label-success"
+      icon = "glyphicon glyphicon-thumbs-up"
+    end
+    "<span class = '"+klass+"'><i class = 'icon-width "+icon+"'></i></span>"
+  end
+
 
 
 end

@@ -1,5 +1,6 @@
 class RegistrationsController < ApplicationController
   before_action :load_registration , :only => [:show, :exam, :review_exam, :submit_exam, :init_registration_show]
+  authorize_resource
 
   def index
     @registrations = current_user.registrations
@@ -18,15 +19,20 @@ class RegistrationsController < ApplicationController
 
   def create
     exam_center = ExamCenter.find(registration_params[:exam_center_id])
-    grid = RegistrationProcessor.prepare_grid(registration_params[:exam_date], exam_center)
+    date = Date.strptime(registration_params[:exam_date], "%d/%m/%Y")
+    reg_processor = RegistrationProcessor.new(date, exam_center)
+    reg_processor.prepare_grid
+    #grid = RegistrationProcessor.prepare_grid(registration_params[:exam_date], exam_center)
     course = Course.find(registration_params[:course_id])
-    machine_id = RegistrationProcessor.best_fit_machine(grid, course.duration.to_i)
+    machine_id = reg_processor.best_fit_machine(registration_params[:exam_start_time], course.duration.to_i)
     if machine_id.present?
       end_time = registration_params[:exam_start_time].to_i + course.duration.to_i
       @registration = Registration.create(registration_params.merge!(:machine_id => machine_id, :student_id => current_user.id, :exam_end_time => end_time.to_s, :registration_date => session[:system_date]))
       if @registration.save
         redirect_to registrations_path
       else
+        @categories = [""]
+        @categories.concat(Course.distinct_categories)
         flash[:fail] = I18n.t :fail, :scope => [:registration, :create]
         render "new"
       end
@@ -40,10 +46,11 @@ class RegistrationsController < ApplicationController
     respond_to do |format|
       format.json do
         exam_center = ExamCenter.find(params[:exam_center_id])
-        date = Date.strptime(params[:exam_date], '%m/%d/%Y').strftime("%Y-%d-%m")
-        grid = RegistrationProcessor.prepare_grid(date, exam_center)
+        date = Date.strptime(params[:exam_date], "%d/%m/%Y")
+        reg_processor = RegistrationProcessor.new(date, exam_center)
+        reg_processor.prepare_grid
         course = Course.find(params[:course_id])
-        slots = RegistrationProcessor.matched_slots(grid, course.duration.to_i)
+        slots = reg_processor.matched_slots(course.duration.to_i)
         render :json => slots
       end
     end

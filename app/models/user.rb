@@ -8,6 +8,9 @@ class User < ActiveRecord::Base
   belongs_to :role
   has_many :registrations, :class_name => "Registration", :foreign_key => "student_id"
 
+
+  scope :exam_ceter_roles, lambda { joins(:role).where(:roles => {:role => 'exam_center' }) }
+
   # def create
   #   User.create(user_params)
   # end

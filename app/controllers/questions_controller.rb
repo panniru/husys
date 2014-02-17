@@ -2,6 +2,7 @@ class QuestionsController < ApplicationController
 
   before_action :load_course
   before_action :load_question, :only => [:show, :edit, :update, :destroy]
+  authorize_resource
 
   def index
     @questions = @course.questions.order("id DESC")

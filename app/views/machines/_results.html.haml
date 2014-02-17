@@ -2,6 +2,7 @@
   %thead
     %th Machine Id
     %th Status
-    %th Action
+    - if can? [:update, :destroy], Machine
+      %th Action
   %tbody
     = render :partial => "machines/machine", :collection => machines, :as => :data

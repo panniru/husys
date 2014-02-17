@@ -1,4 +1,5 @@
 %tr
   %td=  link_to data.machine_id, exam_center_machine_path(@exam_center, data)
   %td= data.status.titleize
-  %td= raw "#{link_to 'Edit', edit_exam_center_machine_path(@exam_center, data), :class => 'btn btn-primary'}  #{link_to 'Delete', exam_center_machine_path(@exam_center, data), :class => 'btn btn-danger',:data =>{ :confirm => 'Are you sure?', :method => :delete }} "
+  - if can? [:update, :destroy], Machine
+    %td= raw "#{link_to 'Edit', edit_exam_center_machine_path(@exam_center, data), :class => 'btn btn-primary'}  #{link_to 'Delete', exam_center_machine_path(@exam_center, data), :class => 'btn btn-danger',:data =>{ :confirm => 'Are you sure?', :method => :delete }} "

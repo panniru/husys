@@ -36,6 +36,13 @@
     = f.label "Email", :class => 'col-sm-2 control-label'
     .col-sm-6
       = f.text_field :center_email, :class => 'form-control'
-
+  .form-group
+    = f.label "Assign User", :class => 'col-sm-2 control-label'
+    .col-sm-6
+      = f.autocomplete_field :assigned_user,
+      auto_search_autocomplete_user_user_id_path,
+      :placeholder => "User Id", :class => 'form-control',
+      :id_element => "#assigned_user_id"
+      = f.hidden_field :assigned_user_id, :id => "assigned_user_id"
   .col-md-6.col-xs-6.pull-right
     = f.submit "Create Center", :class => 'btn btn-primary'

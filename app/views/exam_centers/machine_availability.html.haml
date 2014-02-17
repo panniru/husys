@@ -1,0 +1,11 @@
+= form_tag machine_availability_exam_center_path(@exam_center), :method => 'get' , :class => "form-inline" do
+  .form-group.col-md-6
+    = text_field_tag :date, nil, :class => 'datepicker form-control', :id => "date", :placeholder => "Date"
+  .form-group.col-md-4
+    = submit_tag "Get Availability", :name => nil, :class => "btn-primary btn"
+
+.col-sm-12
+  .page-header
+    %h4 Availble Slots
+  .col-sm-9
+    = render "machine_grid"

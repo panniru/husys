@@ -1,0 +1,11 @@
+%table.table
+  %thead
+    %th= raw "Time/<br/>Machine"
+    - (9..19).each do |hr|
+      %th= "%.2f" % hr.to_f
+  %tbody
+    - @machine_slots.each do |machine|
+      %tr
+        %th= machine.machine_id
+        - (9..19).each do |slot|
+          %td= raw machine_avialability(machine.slots[slot])

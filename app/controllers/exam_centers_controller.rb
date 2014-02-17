@@ -1,6 +1,7 @@
 class ExamCentersController < ApplicationController
-  before_action :load_resource, :only => [:show, :edit, :update, :destroy]
-  before_action :set_gon_data, :excapt => [:only]
+  before_action :load_resource, :only => [:show, :edit, :update, :destroy, :machine_availability]
+  before_action :set_gon_data, :except => [:index, :new, :create]
+  authorize_resource
 
   def index
     page = params[:exam_center_page].present? ? params[:exam_center_page] : 1
@@ -56,10 +57,18 @@ class ExamCentersController < ApplicationController
     end
   end
 
+  def machine_availability
+    date = session[:system_date]
+    date = Date.strptime(params[:date], '%d/%m/%Y') if params[:date].present?
+    reg_processor = RegistrationProcessor.new(date, @exam_center)
+    reg_processor.prepare_grid
+    @machine_slots = reg_processor.get_slots
+  end
+
   private
 
   def exam_center_params
-    params.require(:exam_center).permit(:center_name, :address_line1, :address_line2, :city, :state, :country, :pin, :center_email, :phone)
+    params.require(:exam_center).permit(:center_name, :address_line1, :address_line2, :city, :state, :country, :pin, :center_email, :phone, :assigned_user_id)
   end
 
   def load_resource

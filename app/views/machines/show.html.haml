@@ -1,8 +1,9 @@
 .page-header
   %h3
     = @machine.machine_id
-    .pull-right
-      = link_to 'Edit', edit_exam_center_machine_path(@exam_center, @machine), :class => 'btn btn-primary'
-      = link_to 'Delete', exam_center_machine_path(@exam_center, @machine), :class => 'btn btn-danger', :confirm => 'Are you sure?', :method => :delete
+    - if can? [:update, :destroy], Machine
+      .pull-right
+        = link_to 'Edit', edit_exam_center_machine_path(@exam_center, @machine), :class => 'btn btn-primary'
+        = link_to 'Delete', exam_center_machine_path(@exam_center, @machine), :class => 'btn btn-danger', :confirm => 'Are you sure?', :method => :delete
     %small
       = @machine.status.titleize

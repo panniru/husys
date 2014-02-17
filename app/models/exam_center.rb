@@ -8,8 +8,10 @@ class ExamCenter < ActiveRecord::Base
   validates :latitude, :numericality => true
   validates :longitude, :numericality => true
 
+  attr_accessor :assigned_user
   has_many :machines
   has_many :registrations
+  has_one :user, :class_name => "User", :foriegn_key => "assigned_user_id"
 
   def address_list
     address =[]
