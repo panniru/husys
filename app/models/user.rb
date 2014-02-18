@@ -5,15 +5,20 @@ class User < ActiveRecord::Base
   validates :user_id, :presence => true, :uniqueness => true
   validates :email, :presence => true, :uniqueness => true
   validates :role_id, :presence => true
+  validates :name, :presence => true
+
   belongs_to :role
   has_many :registrations, :class_name => "Registration", :foreign_key => "student_id"
-
 
   scope :exam_ceter_roles, lambda { joins(:role).where(:roles => {:role => 'exam_center' }) }
 
   # def create
   #   User.create(user_params)
   # end
+
+  def exam_center
+    ExamCenter.find_by_assigned_user_id(self) if exam_center?
+  end
 
   def admin?
     self.role.role == 'admin'

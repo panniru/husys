@@ -19,7 +19,7 @@
               %section
                 - flash.each do |key, value|
                   = content_tag(:div,value,:class => "#{flash_alert_class(key)}")
-            = render "shared/bread_crumb"
+              = render "shared/bread_crumb"
             = yield
         - else
           .col-md-12

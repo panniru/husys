@@ -4,8 +4,13 @@ class ExamCentersController < ApplicationController
   authorize_resource
 
   def index
-    page = params[:exam_center_page].present? ? params[:exam_center_page] : 1
-    @exam_centers = ExamCenter.paginate(:page => page)
+    if params[:search].present?
+      @exam_centers = ExamCenter.search(params[:search])
+    else
+      page = params[:exam_center_page].present? ? params[:exam_center_page] : 1
+      @exam_centers = ExamCenter.paginate(:page => page)
+    end
+
     @map_data = GoogleMapProcessor.build_map_data(@exam_centers)
     gon.gmap_data = @map_data.to_json
     gon.width = "750px"
@@ -58,9 +63,9 @@ class ExamCentersController < ApplicationController
   end
 
   def machine_availability
-    date = session[:system_date]
-    date = Date.strptime(params[:date], '%d/%m/%Y') if params[:date].present?
-    reg_processor = RegistrationProcessor.new(date, @exam_center)
+    @date = session[:system_date]
+    @date = Date.strptime(params[:date], '%d/%m/%Y') if params[:date].present?
+    reg_processor = RegistrationProcessor.new(@date, @exam_center)
     reg_processor.prepare_grid
     @machine_slots = reg_processor.get_slots
   end
@@ -78,7 +83,7 @@ class ExamCentersController < ApplicationController
   end
 
   def set_gon_data
-    @map_data = GoogleMapProcessor.build_map_data(@exam_center)
+    @map_data = GoogleMapProcessor.build_map_data([@exam_center])
     gon.width = "450px"
     gon.height = "250px"
     gon.gmap_data = @map_data.to_json

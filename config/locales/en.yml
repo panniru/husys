@@ -78,3 +78,10 @@ en:
       success: "Registration has been registered"
       fail: "Registration has not been registered"
       exam_date: "Invalid Exam Date"
+  user:
+    create:
+      success: "User has been created"
+      fail: "User has not been created"
+    update:
+      success: "User has been updated"
+      fail: "User not been updated"

@@ -3,7 +3,7 @@ class AutoSearchController < ApplicationController
 
   autocomplete :exam_center, :center_name, :full => true, :extra_data => [:address_line1, :address_line2, :city, :state], :display_value => :name_and_address_line1
 
-  autocomplete :user, :user_id, :full => true, :scope => [:exam_ceter_roles]
+  autocomplete :user, :user_id, :full => true, :scopes => [:exam_ceter_roles]
 
   def autocomplete_course_category
     term = params[:term]

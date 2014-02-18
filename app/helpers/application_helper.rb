@@ -23,6 +23,12 @@ module ApplicationHelper
       list << course_details
       list << exam_centers
       list << survey
+      list << users
+    elsif current_user.exam_center?
+      exam_center = current_user.exam_center
+      list << machines_availability(exam_center)
+      list << machine_status(exam_center)
+      list << survey
     elsif current_user.student?
       list << registrations
       list << results
@@ -30,12 +36,32 @@ module ApplicationHelper
     list
   end
 
-  def  render_errors( obj )
+  def roles
+    roles = []
+    Role.order('role').all.each do |role|
+      inner_role = []
+      inner_role << role.role
+      inner_role << role.id
+      roles << inner_role
+    end
+    roles
+  end
+
+
+  def render_errors(obj)
     errors = []
     obj.errors.full_messages.each do |message|
       errors << content_tag("div", message, :class => "alert alert-danger")
     end
     raw(errors.join(""))
+  end
+
+  def machines_availability(exam_center)
+    Struct.new(:icon, :item, :link, :is_active ).new('glyphicon glyphicon-search', 'Machine Availability', machine_availability_exam_center_path(exam_center), controller.action_name == "machine_availability")
+  end
+
+  def machine_status(exam_center)
+    Struct.new(:icon, :item, :link, :is_active ).new('glyphicon glyphicon-credit-card', 'Machines', exam_center_machines_path(exam_center), controller.controller_name == "machines")
   end
 
   def course_details
@@ -66,8 +92,12 @@ module ApplicationHelper
     Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-home', 'Home', root_path, is_home_active?)
   end
 
+  def users
+    Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-user', 'Users', users_path, controller.controller_name == "users")
+  end
+
   def is_home_active?
-    controller.controller_name == "home"
+    (current_user.exam_center.present? and controller.controller_name == 'exam_centers' and controller.action_name == 'show') or controller.controller_name == "home"
   end
 
 

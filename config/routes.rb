@@ -6,6 +6,7 @@ Husys::Application.routes.draw do
   #   root to: "sessions#new"
   # end
   #end
+  resources :users
 
   get "courses/hierarchy" => "courses#hierarchy"
 

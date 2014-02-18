@@ -5,13 +5,13 @@ class ExamCenter < ActiveRecord::Base
   before_validation :geocode
   validates :center_name, :presence=> true
   validates :address_line1, :presence=> true
-  validates :latitude, :numericality => true
-  validates :longitude, :numericality => true
+  validates :latitude, :numericality => true , :allow_blank => true
+  validates :longitude, :numericality => true , :allow_blank => true
 
   attr_accessor :assigned_user
   has_many :machines
   has_many :registrations
-  has_one :user, :class_name => "User", :foriegn_key => "assigned_user_id"
+  belongs_to :user, :foreign_key => "assigned_user_id"
 
   def address_list
     address =[]
@@ -23,7 +23,7 @@ class ExamCenter < ActiveRecord::Base
   end
 
   def full_address
-    address_list.join(" ")
+    address_list.join(", ")
   end
 
   def full_address_html
@@ -44,6 +44,10 @@ class ExamCenter < ActiveRecord::Base
     machine = Machine.new(params)
     machine.exam_center = self
     machine
+  end
+
+  def self.search(id)
+    self.find(id)
   end
 
 end

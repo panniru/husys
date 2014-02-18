@@ -5,7 +5,7 @@ class HomeController < ApplicationController
     if current_user.student?
       render "student"
     elsif current_user.exam_center?
-      redirect_to machine_availability_exam_center_path(:id => current_user.assigned_)
+      redirect_to current_user.exam_center
     else
       @courses = Course.grouped_category
       @exam_centers = ExamCentersDecorator.decorate_collection(ExamCenter.all)

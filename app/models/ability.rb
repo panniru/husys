@@ -10,11 +10,11 @@ class Ability
 
     user ||= User.new
     if user.admin?
-      can :manage, [Course, ExamCenter, Question, QuestionUploader]
+      can :manage, [Course, ExamCenter, Question, QuestionUploader, User]
       can :read, Machine
     elsif user.exam_center?
       can [:read], ExamCenter
-      cam :manage, :Machine
+      can :manage, Machine
     elsif user.student?
       can :manage, Registration
     end
