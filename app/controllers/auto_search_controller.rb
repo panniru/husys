@@ -5,6 +5,9 @@ class AutoSearchController < ApplicationController
 
   autocomplete :user, :user_id, :full => true, :scopes => [:exam_ceter_roles]
 
+  autocomplete :user, :user_info, :column_name => :user_id, :full => true
+  autocomplete :registration, :registration_id, :full => true
+
   def autocomplete_course_category
     term = params[:term]
     if term.present?
@@ -44,7 +47,6 @@ class AutoSearchController < ApplicationController
     end
     render :json => json_for_autocomplete(items, :exam_name)
   end
-
 
   def get_autocomplete_items(parameters)
     items = super(parameters)

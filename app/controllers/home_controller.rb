@@ -3,7 +3,7 @@ class HomeController < ApplicationController
 
   def landing
     if current_user.student?
-      render "student"
+      redirect_to registrations_path
     elsif current_user.exam_center?
       redirect_to current_user.exam_center
     else

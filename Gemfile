@@ -30,6 +30,7 @@ gem 'gmaps4rails', '2.0.3'
 gem 'gon'
 gem 'roo'
 gem 'virtus'
+gem 'wicked_pdf'
 
 group :test do
   gem 'cucumber-rails', require: false

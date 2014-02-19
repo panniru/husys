@@ -1,9 +1,11 @@
 %tr
-  %td= link_to registration.registration_date, init_registration_show_registration_path(registration)
+  %td= link_to registration.registration_id, init_registration_show_registration_path(registration)
+  %td= registration.registration_date
   %td= registration.course_name
   %td= registration.center_name
   %td= registration.formatted_exam_date
   %td= registration.exam_time
   %td= registration.duration
-  %td
-    %span.label.label-success{ "data-countdown".to_sym => "#{registration.count_exam_date}"}
+  - if pending
+    %td
+      %span.label.label-success{ "data-countdown".to_sym => "#{registration.count_exam_date}"}

@@ -1,0 +1,13 @@
+%table.table.table-hover
+  %thead
+    %th Registration Id
+    %th Registration Date
+    %th Course
+    %th Exam Center
+    %th Exam Date
+    %th Time
+    %th Duration
+    - if pending
+      %th Countdown
+  %tbody
+    = render :partial => "registration", :collection => data, :as => :registration, :locals => {:pending => pending}

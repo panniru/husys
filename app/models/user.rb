@@ -20,6 +20,10 @@ class User < ActiveRecord::Base
     ExamCenter.find_by_assigned_user_id(self) if exam_center?
   end
 
+  def self.search(id)
+    self.where(:id => id)
+  end
+
   def admin?
     self.role.role == 'admin'
   end

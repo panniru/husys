@@ -1,17 +1,13 @@
 .page-header
-  %h2
-    = link_to "Registrations", registrations_path
+  %h4
+    = link_to "Active Registrations", registrations_path
     .pull-right
       = link_to "New Registraion", new_registration_path, :class => "btn btn-primary"
 
-%table.table.table-condensed
-  %thead
-    %th Registration Date
-    %th Course
-    %th Exam Center
-    %th Exam Date
-    %th Time
-    %th Duration
-    %th Countdown
-  %tbody
-    = render :partial => "registration", :collection => @registrations, :as => :registration
+= render :partial => "registrations", :locals => {:data => @active_registrations, :pending => true }
+
+.page-header
+  %h4
+    = link_to "Closed Registrations", registrations_path
+
+= render :partial => "registrations", :locals => { :data => @closed_registrations, :pending => false }

@@ -1,0 +1,10 @@
+= form_tag exam_centers_path, :method => 'get' , :class => "form-inline" do
+  .form-group.col-md-6
+    = autocomplete_field_tag :search_term,
+    '',
+    auto_search_autocomplete_exam_center_center_name_path,
+    :placeholder => "Exam Center Name", :class => 'form-control',
+    :id_element => "#search"
+    = hidden_field_tag :search, :id => "search"
+  = submit_tag "Search", :name => nil, :class => "btn-primary btn"
+  = link_to "Add Center", new_exam_center_path, :class => "btn btn-primary"

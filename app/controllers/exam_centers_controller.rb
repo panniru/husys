@@ -1,11 +1,11 @@
 class ExamCentersController < ApplicationController
-  before_action :load_resource, :only => [:show, :edit, :update, :destroy, :machine_availability]
-  before_action :set_gon_data, :except => [:index, :new, :create]
+  before_action :load_resource, :only => [:show, :edit, :update, :destroy, :machine_availability, :today_exams]
+  before_action :set_gon_data, :except => [:index, :new, :create, :today_exams]
   authorize_resource
 
   def index
     if params[:search].present?
-      @exam_centers = ExamCenter.search(params[:search])
+      @exam_centers = ExamCenter.search(params[:search]).paginate(:page => 1)
     else
       page = params[:exam_center_page].present? ? params[:exam_center_page] : 1
       @exam_centers = ExamCenter.paginate(:page => page)
@@ -68,6 +68,15 @@ class ExamCentersController < ApplicationController
     reg_processor = RegistrationProcessor.new(@date, @exam_center)
     reg_processor.prepare_grid
     @machine_slots = reg_processor.get_slots
+  end
+
+  def today_exams
+    if params[:search].present?
+      @registrations = @exam_center.registrations.search(params[:search]).dated_on(session[:system_date])
+    else
+      @registrations = @exam_center.registrations.dated_on(session[:system_date]).limit(50)
+    end
+    @registrations = RegistrationsDecorator.decorate_collection(@registrations)
   end
 
   private

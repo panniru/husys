@@ -47,7 +47,7 @@ class ExamCenter < ActiveRecord::Base
   end
 
   def self.search(id)
-    self.find(id)
+    self.where(:id => id)
   end
 
 end

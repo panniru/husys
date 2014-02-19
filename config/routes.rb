@@ -26,6 +26,7 @@ Husys::Application.routes.draw do
   resources :exam_centers do
     member do
       get "machine_availability"
+      get "today_exams"
     end
     resources :machines
   end
@@ -37,6 +38,7 @@ Husys::Application.routes.draw do
       get "review_exam"
       get "submit_exam"
       get "init_registration_show"
+      post "validate_exam_entrance"
     end
     collection do
       get "avalable_slots"
@@ -49,6 +51,8 @@ Husys::Application.routes.draw do
   get 'auto_search/autocomplete_course_exam_name'
   get 'auto_search/autocomplete_exam_center_center_name'
   get 'auto_search/autocomplete_user_user_id'
+  get 'auto_search/autocomplete_user_user_info'
+  get 'auto_search/autocomplete_registration_registration_id'
 
   get "home/exam_centers_geo" => "home#exam_centers_geo"
 

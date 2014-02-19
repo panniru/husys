@@ -7,6 +7,8 @@ class Registration < ActiveRecord::Base
   validates :course, :presence => true
   validates :machine, :presence => true
   validate :exam_date_validation
+  before_save :generate_access_password
+  before_save :generate_registration_id
 
   belongs_to :exam_center
   belongs_to :course
@@ -15,6 +17,15 @@ class Registration < ActiveRecord::Base
   has_one :result
 
   scope :dated_on, lambda {|date| where("exam_date = ?", date)}
+  scope :search, lambda{|id| where(:id => id) }
+
+  def encrypt_access_password(password)
+    self.access_password = BCrypt::Password.create(password)
+  end
+
+  def match_access_password(password)
+    BCrypt::Password.new(self.access_password) == password
+  end
 
   private
 
@@ -22,6 +33,19 @@ class Registration < ActiveRecord::Base
     unless exam_date.present? and exam_date.to_date >= DateTime.now.to_date
       self.errors.add(:exam_date, I18n.t(:exam_date, :scope => [:registration, :create]) )
     end
+  end
+
+  def generate_access_password
+    range = [(0..9), ('A'..'Z')].map { |i| i.to_a }.flatten
+    self.access_password = (0...8).map { range[rand(range.length)] }.join
+  end
+
+  def generate_registration_id
+    count = Registration.dated_on(DateTime.now).count
+    count = (count.to_f+1/1000).to_s.split(".")[1]
+    part_1 = ((self.exam_center.id.to_f%1000)/1000).to_s.split(".")[1]
+    part_2 = DateTime.now.strftime("%m%d")
+    self.registration_id = "#{part_1}#{part_2}#{count}"
   end
 
 end

@@ -18,20 +18,23 @@ module ApplicationHelper
 
   def navigation_list
     list = []
-    list << home
+
     if current_user.admin?
+      list << home
       list << course_details
       list << exam_centers
-      list << survey
+      #list << survey
       list << users
     elsif current_user.exam_center?
+      list << home
       exam_center = current_user.exam_center
       list << machines_availability(exam_center)
       list << machine_status(exam_center)
-      list << survey
+      list << today_exams(exam_center)
+      #list << survey
     elsif current_user.student?
       list << registrations
-      list << results
+      #list << results
     end
     list
   end
@@ -47,6 +50,9 @@ module ApplicationHelper
     roles
   end
 
+  def today_exams(exam_center)
+    Struct.new(:icon, :item, :link, :is_active).new('glyphicon glyphicon-list-alt', 'Exams Today', today_exams_exam_center_path(exam_center), controller.action_name == "today_exams")
+  end
 
   def render_errors(obj)
     errors = []

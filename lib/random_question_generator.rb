@@ -2,7 +2,7 @@ class RandomQuestionGenerator
 
   def self.generate_questions(course)
     selected_qtns = []
-    total_questions = course.questions.all.length
+    total_questions = course.questions.count
     (1..course.no_of_questions).each do |no|
       random_no = Random.rand(1..total_questions)
       while include_question?(random_no, selected_qtns) do

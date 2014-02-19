@@ -3,7 +3,11 @@ class UsersController < ApplicationController
   authorize_resource
 
   def index
-    @users = User.all
+    if params[:search].present?
+      @users = User.search(params[:search])
+    else
+      @users = User.all
+    end
   end
 
   def new

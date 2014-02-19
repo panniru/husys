@@ -1,10 +1,23 @@
 class RegistrationsController < ApplicationController
-  before_action :load_registration , :only => [:show, :exam, :review_exam, :submit_exam, :init_registration_show]
+  before_action :load_registration , :only => [:show, :exam, :review_exam, :submit_exam, :init_registration_show, :validate_exam_entrance]
+  before_action :validate_exam_status, :only => [:exam, :init_registration_show]
   authorize_resource
 
   def index
-    @registrations = current_user.registrations
-    @registrations = RegistrationsDecorator.decorate_collection(@registrations)
+    @registrations = current_user.registrations.limit(50)
+    @active_registrations = []
+    @closed_registrations = []
+    @registrations.each do |reg|
+      @registration = reg
+      validate_exam_status
+      if reg.exam_date >= session[:system_date] or @exam_status
+        @active_registrations << reg
+      else
+        @closed_registrations << reg
+      end
+    end
+    @active_registrations = RegistrationsDecorator.decorate_collection(@active_registrations)
+    @closed_registrations = RegistrationsDecorator.decorate_collection(@closed_registrations)
   end
 
   def show
@@ -57,35 +70,37 @@ class RegistrationsController < ApplicationController
   end
 
   def exam
-    selected_questions = session[:current_user_exam_questions]
-    @course = @registration.course
-    unless selected_questions.present?
-      selected_questions = RandomQuestionGenerator.generate_questions(@course)
-      session[:current_user_exam_questions] = selected_questions
-    end
-    @question = RandomQuestionGenerator.next_question(params, selected_questions)
-    if @question.nil?
-      redirect_to review_exam_registration_path(@registration)
+    if @exam_status
+      selected_questions = session[:current_user_exam_questions]
+      @course = @registration.course
+      unless selected_questions.present?
+        selected_questions = RandomQuestionGenerator.generate_questions(@course)
+        session[:current_user_exam_questions] = selected_questions
+      end
+      @question = RandomQuestionGenerator.next_question(params, selected_questions)
+      if @question.nil?
+        redirect_to review_exam_registration_path(@registration)
+      end
+    else
+      redirect_to submit_exam_registration_path(@registration)
     end
   end
 
   def init_registration_show
-    if @registration.exam_date.to_date == session[:system_date].to_date
-      start_time = @registration.exam_start_time.strftime("%H.%M").to_f - 10.0
-      end_time = @registration.exam_end_time.strftime("%H.%M").to_f
-      system_time = session[:system_date].strftime("%H.%M").to_f
-      if start_time <= system_time or system_time <= end_time
-      else
-        render "show"
-      end
+    @registration = RegistrationsDecorator.decorate(@registration)
+    if @exam_status
+      render "exam_land"
     else
-      @registration = RegistrationsDecorator.decorate(@registration)
-      render "exam_land" #"show"
+      render "show"
     end
   end
 
   def review_exam
-    @questions = session[:current_user_exam_questions]
+    if @exam_status
+      @questions = session[:current_user_exam_questions]
+    else
+      redirect_to submit_exam_registration_path(@registration)
+    end
   end
 
   def submit_exam
@@ -99,6 +114,18 @@ class RegistrationsController < ApplicationController
     end
   end
 
+  def validate_exam_entrance
+    respond_to do |format|
+      format.json do
+        status = false
+        if @registration.access_password == params[:password]
+          status = true
+        end
+        render :json => status
+      end
+    end
+  end
+
   private
 
   def registration_params
@@ -109,4 +136,16 @@ class RegistrationsController < ApplicationController
     @registration = Registration.find(params[:id])
   end
 
+  def validate_exam_status
+    @exam_status = false
+    system_time = Time.now
+    @exam_end_time = "#{@registration.exam_date.strftime("%Y/%m/%d")} #{@registration.exam_end_time.strftime("%H:%M:%S")}"
+    if @registration.exam_date.to_date == system_time.to_date
+      start_time = Time.new(@registration.exam_date.year, @registration.exam_date.month, @registration.exam_date.day, @registration.exam_start_time.strftime("%H"), @registration.exam_start_time.strftime("%M"))
+      end_time = Time.new(@registration.exam_date.year, @registration.exam_date.month, @registration.exam_date.day, @registration.exam_end_time.strftime("%H"), @registration.exam_end_time.strftime("%M"))
+      if ((start_time -  system_time)/60) <= 10.00 and system_time <= end_time
+        @exam_status = true
+      end
+    end
+  end
 end

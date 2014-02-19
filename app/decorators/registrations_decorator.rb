@@ -1,6 +1,10 @@
 class RegistrationsDecorator < Draper::Decorator
   delegate_all
 
+  def student_name
+    student.name
+  end
+
   def course_name
     course.exam_name
   end
@@ -25,8 +29,12 @@ class RegistrationsDecorator < Draper::Decorator
     exam_start_time.strftime("%H:%M")
   end
 
+  def end_time
+    exam_end_time.strftime("%H:%M")
+  end
+
   def count_exam_date
-    "#{exam_date.strftime("%Y/%d/%m")} #{exam_start_time.strftime("%H:%M:%S")}"
+    "#{exam_date.strftime("%Y/%m/%d")} #{exam_start_time.strftime("%H:%M:%S")}"
   end
 
   def course_details

@@ -1,6 +1,5 @@
 window.get_sub = (event) ->
         url = "/courses/hierarchy?view_by=sub_category&filters="+$(event.target).val()
-
         $.getJSON(url, (data)->
                 parent = $("#reg_sub_cat")
                 parent.empty().append("<option value = ' '> </option>")
@@ -34,7 +33,6 @@ window.get_exam = (event) ->
 
 $ ->
    $('.datepicker').datepicker()
-
    $('body').on('click', 'a[rel = "question-nav-next"]', (event)->
         $("#action_for").val("next")
         $("form#ol_exam").submit()
@@ -55,6 +53,24 @@ $ ->
                 $this.html event.strftime("%D days %H:%M:%S")
                 if event.strftime("%D-%H-%M-%S") == '00-00-00-00'
                         $("#take_exam").show()
+
+   $("span#time-out-timer").countdown $("#time-out-timer").data("end-countdown"), (event) ->
+        $(this).html event.strftime("%H:%M:%S")
+        if event.strftime("%D-%H-%M-%S") == '00-00-00-00'
+                $("#action_for").val("submit")
+                $("form#ol_exam").submit()
+
+   $('body').on('click', 'a[rel = "validation-submit"]', (event)->
+        password = $("#entry-password").val()
+        reg_id = $("#registration_id").val()
+        url = "/registrations/"+reg_id+"/validate_exam_entrance.json?password="+password
+        $.post(url, (data) ->
+                if data == true || data == 'true'
+                    $('#validationModel').modal('toggle')
+                else
+                    $('#status').html("Invalid Password")
+                )
+        )
 
    $('a[ rel = "course_name"]').tooltip({animation: true, placement: 'bottom', html: true, delay: { show: 200, hide: 100 }})
    $('a[ rel = "center_address"]').tooltip({animation: true, placement: 'bottom', html: true})

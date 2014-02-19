@@ -28,3 +28,7 @@
     %a{:rel => "question-nav-next"}
       = "Next"
       %i.glyphicon.glyphicon-chevron-right
+
+.col-sm-2.pull-right
+  %h4
+    %span.label.label-danger{"data-end-countdown".to_sym => "#{@exam_end_time}", :id => "time-out-timer"}
