@@ -23,19 +23,19 @@ def seed_user
   exam_center = User.where(user_id: "exam_center").first
 
   unless admin.present?
-    admin =  User.new({:email => 'admin@ostryalabs.com', :password => 'welcome', :user_id => 'admin'})
+    admin =  User.new({:email => 'admin@ostryalabs.com', :password => 'welcome', :user_id => 'admin', :name => 'Admin'})
     admin.role = role
     admin.save!
   end
 
   unless student.present?
-    student =  User.new({:email => 'student@ostryalabs.com', :password => 'welcome', :user_id => 'student'})
+    student =  User.new({:email => 'student@ostryalabs.com', :password => 'welcome', :user_id => 'student', :name => 'Student'})
     student.role = stu_role
     student.save!
   end
 
   unless exam_center.present?
-    exam_center =  User.new({:email => 'exam_center@ostryalabs.com', :password => 'welcome', :user_id => 'exam_center'})
+    exam_center =  User.new({:email => 'exam_center@ostryalabs.com', :password => 'welcome', :user_id => 'exam_center', :name => 'ExamCenter'})
     exam_center.role = exam_center_role
     exam_center.save!
   end
