@@ -27,7 +27,36 @@ class Registration < ActiveRecord::Base
     BCrypt::Password.new(self.access_password) == password
   end
 
+  def demo_registration?
+    self.status == 'seeded'
+  end
+
+  def mark_pending
+    self.status = 'pending'
+  end
+
+  def mark_close
+    self.status = 'closed'
+  end
+
+  def do_post_result
+    increment_attempts
+    mark_close unless demo_registration?
+  end
+
+  def do_demo_initial_settings(date)
+    self.exam_date = date
+    self.exam_start_time = date.strftime("%H:%M")
+    self.exam_end_time = (date.to_time+self.course.duration.hours).to_datetime.strftime("%H:%M")
+    self.save!
+  end
+
+
   private
+
+  def increment_attempts
+    self.no_of_attempts = self.no_of_attempts.nil? ? 1 : self.no_of_attempts+1
+  end
 
   def exam_date_validation
     unless exam_date.present? and exam_date.to_date >= DateTime.now.to_date
@@ -36,8 +65,10 @@ class Registration < ActiveRecord::Base
   end
 
   def generate_access_password
-    range = [(0..9), ('A'..'Z')].map { |i| i.to_a }.flatten
-    self.access_password = (0...8).map { range[rand(range.length)] }.join
+    unless demo_registration?
+      range = [(0..9), ('A'..'Z')].map { |i| i.to_a }.flatten
+      self.access_password = (0...8).map { range[rand(range.length)] }.join
+    end
   end
 
   def generate_registration_id

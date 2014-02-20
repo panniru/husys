@@ -10,7 +10,7 @@ class RegistrationsController < ApplicationController
     @registrations.each do |reg|
       @registration = reg
       validate_exam_status
-      if reg.exam_date >= session[:system_date] or @exam_status
+      if reg.status == "pending" or reg.status == "seeded"
         @active_registrations << reg
       else
         @closed_registrations << reg
@@ -41,6 +41,7 @@ class RegistrationsController < ApplicationController
     if machine_id.present?
       end_time = registration_params[:exam_start_time].to_i + course.duration.to_i
       @registration = Registration.create(registration_params.merge!(:machine_id => machine_id, :student_id => current_user.id, :exam_end_time => end_time.to_s, :registration_date => session[:system_date]))
+      @registration.mark_pending
       if @registration.save
         redirect_to registrations_path
       else
@@ -87,8 +88,11 @@ class RegistrationsController < ApplicationController
   end
 
   def init_registration_show
+    if @registration.demo_registration?
+      @registration.do_demo_initial_settings(session[:system_date])
+    end
     @registration = RegistrationsDecorator.decorate(@registration)
-    if @exam_status
+    if @exam_status or @registration.demo_registration?
       render "exam_land"
     else
       render "show"
@@ -106,7 +110,7 @@ class RegistrationsController < ApplicationController
   def submit_exam
     active_questions = session[:current_user_exam_questions]
     if active_questions.present?
-      validator = ExamValidator.new(active_questions, @registration.id, @registration.course)
+      validator = ExamValidator.new(active_questions, @registration, @registration.course)
       result = validator.validate
       redirect_to @registration
     else

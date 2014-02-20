@@ -1,12 +1,12 @@
 class ExamValidator
   include Virtus.model
   attribute :active_questions
-  attribute :registration_id
+  attribute :registration
   attribute :course
 
-  def initialize(active_questions, registration_id, course)
+  def initialize(active_questions, registration, course)
     self.active_questions = active_questions
-    self.registration_id = registration_id
+    self.registration = registration
     self.course = course
   end
 
@@ -26,8 +26,9 @@ class ExamValidator
     end
     status = right_answers >= CUTOFF ? "passed" : "failed"
     pass_text = analyse_result(right_answers)
-    result = Result.new(:registration_id => registration_id, :total_marks => course.no_of_questions, :marks_secured => right_answers, :exam_result => status, :pass_text => pass_text)
+    result = Result.new(:registration_id => registration.id, :total_marks => course.no_of_questions, :marks_secured => right_answers, :exam_result => status, :pass_text => pass_text)
     result.save
+    registration.do_post_result
     result
   end
 
