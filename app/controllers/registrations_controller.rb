@@ -1,6 +1,6 @@
 class RegistrationsController < ApplicationController
   before_action :load_registration , :only => [:show, :exam, :review_exam, :submit_exam, :init_registration_show, :validate_exam_entrance]
-  before_action :validate_exam_status, :only => [:exam, :init_registration_show]
+  before_action :validate_exam_status, :only => [:exam, :init_registration_show, :review_exam]
   authorize_resource
 
   def index
