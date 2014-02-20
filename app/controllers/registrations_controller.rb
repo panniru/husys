@@ -89,7 +89,7 @@ class RegistrationsController < ApplicationController
 
   def init_registration_show
     if @registration.demo_registration?
-      @registration.do_demo_initial_settings(session[:system_date])
+      @registration.do_demo_initial_settings(DateTime.now)
     end
     @registration = RegistrationsDecorator.decorate(@registration)
     if @exam_status or @registration.demo_registration?
