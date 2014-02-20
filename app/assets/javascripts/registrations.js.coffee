@@ -56,9 +56,9 @@ $ ->
 
    $("span#time-out-timer").countdown $("#time-out-timer").data("end-countdown"), (event) ->
         $(this).html event.strftime("%H:%M:%S")
-        if event.strftime("%D-%H-%M-%S") == '00-00-00-00'
-                $("#action_for").val("submit")
-                $("form#ol_exam").submit()
+        #if event.strftime("%D-%H-%M-%S") == '00-00-00-00'
+                #$("#action_for").val("submit")
+                # $("form#ol_exam").submit()
 
    $('body').on('click', 'a[rel = "validation-submit"]', (event)->
         password = $("#entry-password").val()
