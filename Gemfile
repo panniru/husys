@@ -30,6 +30,9 @@ gem 'gmaps4rails', '2.0.3'
 gem 'gon'
 gem 'roo'
 gem 'virtus'
+
+gem 'activerecord-session_store', github: 'rails/activerecord-session_store'
+
 group :test do
   gem 'cucumber-rails', require: false
 end
