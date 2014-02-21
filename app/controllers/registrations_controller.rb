@@ -74,6 +74,7 @@ class RegistrationsController < ApplicationController
     if @exam_status
       selected_questions = session[:current_user_exam_questions]
       @course = @registration.course
+      @registration = RegistrationsDecorator.decorate(@registration)
       unless selected_questions.present?
         selected_questions = RandomQuestionGenerator.generate_questions(@course)
         session[:current_user_exam_questions] = selected_questions
@@ -143,7 +144,7 @@ class RegistrationsController < ApplicationController
   def validate_exam_status
     @exam_status = false
     system_time = Time.now
-    @exam_end_time = "#{@registration.exam_date.strftime("%Y/%m/%d")} #{@registration.exam_end_time.strftime("%H:%M:%S")}"
+
     if @registration.exam_date.to_date == system_time.to_date
       start_time = Time.new(@registration.exam_date.year, @registration.exam_date.month, @registration.exam_date.day, @registration.exam_start_time.strftime("%H"), @registration.exam_start_time.strftime("%M"))
       end_time = Time.new(@registration.exam_date.year, @registration.exam_date.month, @registration.exam_date.day, @registration.exam_end_time.strftime("%H"), @registration.exam_end_time.strftime("%M"))

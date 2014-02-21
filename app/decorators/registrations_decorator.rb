@@ -34,16 +34,18 @@ class RegistrationsDecorator < Draper::Decorator
   end
 
   def count_exam_date
-    logger.info "========================="
-    logger.info "production? =============#{Rails.env.production?}"
-    logger.info "time =============#{Time.now}"
-    logger.info "time after=============#{((Time.new(exam_date.year, exam_date.month, exam_date.day, exam_start_time.hour, exam_start_time.to_datetime.minute))+5.30.hours).strftime("%Y/%m/%d %H:%M")}"
-    logger.info "========================="
-
     if Rails.env.production? #converting gmt to ist at heroku temporary fix
-      ((Time.new(exam_date.year, exam_date.month, exam_date.day, exam_start_time.hour, exam_start_time.to_datetime.minute))+5.30.hours).strftime("%Y/%m/%d %H:%M")
+      ((Time.new(exam_date.year, exam_date.month, exam_date.day, exam_start_time.hour, exam_start_time.to_datetime.minute))+gmt_to_ist_differece.hours).strftime("%Y/%m/%d %H:%M")
     else
       "#{exam_date.strftime("%Y/%m/%d")} #{exam_start_time.strftime("%H:%M:%S")}"
+    end
+  end
+
+  def count_down_exam_end_time
+    if Rails.env.production? #converting gmt to ist at heroku temporary fix
+      ((Time.new(exam_date.year, exam_date.month, exam_date.day, exam_end_time.hour, exam_end_time.to_datetime.minute))+gmt_to_ist_differece.hours).strftime("%Y/%m/%d %H:%M")
+    else
+      "#{@registration.exam_date.strftime("%Y/%m/%d")} #{@registration.exam_end_time.strftime("%H:%M:%S")}"
     end
   end
 
@@ -53,6 +55,12 @@ class RegistrationsDecorator < Draper::Decorator
 
   def center_address
     exam_center.full_address_html
+  end
+
+  private
+
+  def gmt_to_ist_differece
+    (530 - Time.now.strftime("%z").gsub("+","").to_f)/100
   end
 
 end
