@@ -148,8 +148,8 @@ class RegistrationsController < ApplicationController
     logger.fatal "System Date============>#{session[:system_date]}"
     logger.fatal "@registration.exam_date============>#{@registration.exam_date}"
     if @registration.exam_date.to_date == system_time.to_date
-      start_time = Time.new(@registration.exam_date.year, @registration.exam_date.month, @registration.exam_date.day, @registration.exam_start_time.strftime("%H"), @registration.exam_start_time.strftime("%M")) #making time with exam_date no need to convert to time zone
-      end_time = Time.new(@registration.exam_date.year, @registration.exam_date.month, @registration.exam_date.day, @registration.exam_end_time.strftime("%H"), @registration.exam_end_time.strftime("%M"))
+      start_time = Time.zone.new(@registration.exam_date.year, @registration.exam_date.month, @registration.exam_date.day, @registration.exam_start_time.strftime("%H"), @registration.exam_start_time.strftime("%M")).in_time_zone(current_user.time_zone) #making time with exam_date no need to convert to time zone
+      end_time = Time.zone.new(@registration.exam_date.year, @registration.exam_date.month, @registration.exam_date.day, @registration.exam_end_time.strftime("%H"), @registration.exam_end_time.strftime("%M")).in_time_zone(current_user.time_zone)
       logger.fatal "Inside start_time============>#{start_time}"
       logger.fatal "Inside end_time============>#{end_time}"
       logger.fatal "Difference============>#{((start_time -  system_time)/60)}"
