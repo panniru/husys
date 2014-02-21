@@ -40,7 +40,7 @@ class RegistrationsController < ApplicationController
     machine_id = reg_processor.best_fit_machine(registration_params[:exam_start_time], course.duration.to_i)
     if machine_id.present?
       end_time = registration_params[:exam_start_time].to_i + course.duration.to_i
-      @registration = Registration.create(registration_params.merge!(:machine_id => machine_id, :student_id => current_user.id, :exam_end_time => end_time.to_s, :registration_date => session[:system_date]))
+      @registration = Registration.new(registration_params.merge!(:machine_id => machine_id, :student_id => current_user.id, :exam_end_time => end_time.to_s, :registration_date => session[:system_date], :current_user_time => session[:system_date]))
       @registration.mark_pending
       if @registration.save
         redirect_to registrations_path
@@ -90,7 +90,7 @@ class RegistrationsController < ApplicationController
 
   def init_registration_show
     if @registration.demo_registration?
-      @registration.do_demo_initial_settings(DateTime.now)
+      @registration.do_demo_initial_settings(session[:system_date])
     end
     @registration = RegistrationsDecorator.decorate(@registration)
     if @exam_status or @registration.demo_registration?
@@ -139,18 +139,24 @@ class RegistrationsController < ApplicationController
 
   def load_registration
     @registration = Registration.find(params[:id])
+    set_current_user_time
   end
 
   def validate_exam_status
     @exam_status = false
-    system_time = Time.now
+    system_time = session[:system_date]
 
     if @registration.exam_date.to_date == system_time.to_date
-      start_time = Time.new(@registration.exam_date.year, @registration.exam_date.month, @registration.exam_date.day, @registration.exam_start_time.strftime("%H"), @registration.exam_start_time.strftime("%M"))
+      start_time = Time.new(@registration.exam_date.year, @registration.exam_date.month, @registration.exam_date.day, @registration.exam_start_time.strftime("%H"), @registration.exam_start_time.strftime("%M")) #making time with exam_date no need to convert to time zone
       end_time = Time.new(@registration.exam_date.year, @registration.exam_date.month, @registration.exam_date.day, @registration.exam_end_time.strftime("%H"), @registration.exam_end_time.strftime("%M"))
       if ((start_time -  system_time)/60) <= 10.00 and system_time <= end_time
         @exam_status = true
       end
     end
   end
+
+  def set_current_user_time
+    @registration.current_user_time = session[:system_date]
+  end
+
 end

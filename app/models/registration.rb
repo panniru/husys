@@ -1,6 +1,6 @@
 class Registration < ActiveRecord::Base
 
-  attr_accessor :category, :sub_category, :course_name
+  attr_accessor :category, :sub_category, :course_name, :current_user_time
 
   validates :exam_start_time, :presence => true
   validates :exam_center, :presence => true
@@ -58,7 +58,7 @@ class Registration < ActiveRecord::Base
   end
 
   def exam_date_validation
-    unless exam_date.present? and exam_date.to_date >= DateTime.now.to_date
+    unless exam_date.present? and exam_date.to_date >= current_user_time.to_date
       self.errors.add(:exam_date, I18n.t(:exam_date, :scope => [:registration, :create]) )
     end
   end
@@ -71,10 +71,10 @@ class Registration < ActiveRecord::Base
   end
 
   def generate_registration_id
-    count = Registration.dated_on(DateTime.now).count
-    count = (count.to_f+1/1000).to_s.split(".")[1]
+    count = Registration.dated_on(current_user_time.to_date).count
+    count = ((count+1).to_f/1000).to_s.split(".")[1]
     part_1 = ((self.exam_center.id.to_f%1000)/1000).to_s.split(".")[1]
-    part_2 = DateTime.now.strftime("%m%d")
+    part_2 = self.registration_date.strftime("%m%d")
     self.registration_id = "#{part_1}#{part_2}#{count}"
   end
 

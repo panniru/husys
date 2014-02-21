@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!, :unless => :devise_controller?
   before_action :store_location
   check_authorization :unless => :devise_controller?
+  before_action :set_time_zone, :unless => :devise_controller?
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_url, :alert => exception.message
@@ -30,5 +31,11 @@ class ApplicationController < ActionController::Base
 
   def after_sign_out_path_for(resource_or_scope)
     new_user_session_path
+  end
+
+  def set_time_zone
+    min = cookies[:timezone].to_i
+    current_user.time_zone ||= ActiveSupport::TimeZone[-min.minutes]
+    session[:system_date] = Time.zone.now.in_time_zone(current_user.time_zone)
   end
 end

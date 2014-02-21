@@ -30,6 +30,7 @@ module Husys
     #config.assets.precompile << /(^[^_]|\/[^_])[^\/]*/
     # if you prefer `.sass` over `.scss`.
     config.sass.preferred_syntax = :sass
+    config.time_zone = 'Central Time (US & Canada)'
 
     config.autoload_paths += %W(#{Rails.root}/lib/)
     config.autoload_paths += %W(#{Rails.root}/app/presenters)

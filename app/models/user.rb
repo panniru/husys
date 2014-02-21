@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   validates :role_id, :presence => true
   validates :name, :presence => true
 
+  attr_accessor :time_zone
+
   belongs_to :role
   has_many :registrations, :class_name => "Registration", :foreign_key => "student_id"
 
