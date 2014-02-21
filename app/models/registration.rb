@@ -46,7 +46,10 @@ class Registration < ActiveRecord::Base
 
   def do_demo_initial_settings(date)
     self.exam_date = date
-    end_time = (date.to_time+self.course.duration.hours).to_datetime.strftime("%H:%M")
+    logger.info "date============>#{date}"
+    logger.info "(date.to_time+self.course.duration.hours)============>#{(date+self.course.duration.hours)}"
+    logger.info "(date+self.course.duration.hours).to_datetime============>#{(date+self.course.duration.hours).to_datetime}"
+    end_time = (date+self.course.duration.hours).to_datetime.strftime("%H:%M")
     logger.info "Setting end_time============>#{end_time}"
     self.update!(:exam_start_time => date.strftime("%H:%M"), :exam_end_time => end_time)
   end
