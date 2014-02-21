@@ -145,10 +145,14 @@ class RegistrationsController < ApplicationController
   def validate_exam_status
     @exam_status = false
     system_time = session[:system_date]
-
+    logger.info "System Date============>#{session[:system_date]}"
+    logger.info "@registration.exam_date============>#{@registration.exam_date}"
     if @registration.exam_date.to_date == system_time.to_date
       start_time = Time.new(@registration.exam_date.year, @registration.exam_date.month, @registration.exam_date.day, @registration.exam_start_time.strftime("%H"), @registration.exam_start_time.strftime("%M")) #making time with exam_date no need to convert to time zone
       end_time = Time.new(@registration.exam_date.year, @registration.exam_date.month, @registration.exam_date.day, @registration.exam_end_time.strftime("%H"), @registration.exam_end_time.strftime("%M"))
+      logger.info "Inside start_time============>#{start_time}"
+      logger.info "Inside end_time============>#{end_time}"
+      logger.info "Inside============>#{((start_time -  system_time)/60) <= 10.00 and system_time <= end_time}"
       if ((start_time -  system_time)/60) <= 10.00 and system_time <= end_time
         @exam_status = true
       end
