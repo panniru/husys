@@ -98,7 +98,7 @@ def seed_registration
     machine = exam_center.machines.first
     exam_date = DateTime.now+1
     registration_date = DateTime.now
-    reg = Registration.new(student_id: student.id, exam_center_id: exam_center.id, machine_id: machine.id, course_id: course.id, exam_date: exam_date, exam_start_time: "11:00:00", exam_end_time: "11:30:00", registration_date: registration_date, status: "seeded", access_password: "welcome", registration_id: "demo 123")
+    reg = Registration.new(student_id: student.id, exam_center_id: exam_center.id, machine_id: machine.id, course_id: course.id, exam_date: exam_date, exam_start_time: "11:00:00", exam_end_time: "11:30:00", registration_date: registration_date, status: "seeded", access_password: "welcome", registration_id: "demo 123", current_user_time:  DateTime.now)
     reg.save
   end
 end
