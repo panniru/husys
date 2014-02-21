@@ -88,6 +88,9 @@ class RegistrationsController < ApplicationController
   end
 
   def init_registration_show
+    puts "=================================="
+    puts "DateTime===========>#{DateTime.now}"
+    puts "=================================="
     if @registration.demo_registration?
       @registration.do_demo_initial_settings(DateTime.now)
     end
