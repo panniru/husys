@@ -34,6 +34,12 @@ class RegistrationsDecorator < Draper::Decorator
   end
 
   def count_exam_date
+    logger.info "========================="
+    logger.info "production? =============#{Rails.env.production?}"
+    logger.info "time =============#{Time.now}"
+    logger.info "time after=============#{((Time.new(exam_date.year, exam_date.month, exam_date.day, exam_start_time.hour, exam_start_time.to_datetime.minute))+5.30.hours).strftime("%Y/%m/%d %H:%M")}"
+    logger.info "========================="
+
     if Rails.env.production? #converting gmt to ist at heroku temporary fix
       ((Time.new(exam_date.year, exam_date.month, exam_date.day, exam_start_time.hour, exam_start_time.to_datetime.minute))+5.30.hours).strftime("%Y/%m/%d %H:%M")
     else
