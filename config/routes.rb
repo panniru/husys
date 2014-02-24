@@ -14,6 +14,11 @@ Husys::Application.routes.draw do
     collection do
       get 'search'
     end
+    resources :descriptive_questions do
+      collection do
+        get 'xls_template_descriptive'
+      end
+    end
     resources :questions do
       collection do
         get 'upload_new'

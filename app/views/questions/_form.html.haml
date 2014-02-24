@@ -6,21 +6,11 @@
       .col-sm-8
         = f.text_area :description, :class => 'form-control', :autofocus => true
     .form-group
-      = f.label "Option 1", :class => 'col-sm-4 control-label'
-      .col-sm-8
-        = f.text_field :option_1, :class => 'form-control'
-    .form-group
-      = f.label "Option 2", :class => 'col-sm-4 control-label'
-      .col-sm-8
-        = f.text_field :option_2, :class => 'form-control'
-    .form-group
-      = f.label "Option 3", :class => 'col-sm-4 control-label'
-      .col-sm-8
-        = f.text_field :option_3, :class => 'form-control'
-    .form-group
-      = f.label "Option 4", :class => 'col-sm-4 control-label'
-      .col-sm-8
-        = f.text_field :option_4, :class => 'form-control'
+      = f.label "Descriptive", :class => 'col-sm-4 control-label'
+      .col-sm-3
+        = f.check_box :is_descriptive, :class => 'form-control', :rel => "is-descriptive"
+    #question-options{:style => 'display:none'}
+      = render "question_options", :form => f
     .form-group
       = f.label "Answer", :class => 'col-sm-4 control-label'
       .col-sm-8

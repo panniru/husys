@@ -9,10 +9,10 @@
         %td
           - if question.answer_caught.present?
             %span.label.label-success
-              = link_to question.active_question_no, exam_registration_path(:id => @registration, :question_id =>question.question_id)
+              = link_to question.active_question_no, exam_registration_path(:id => @registration, :active_question_no =>question.active_question_no)
           - else
             %span.label.label-danger
-              = link_to question.active_question_no, exam_registration_path(:id => @registration, :question_id =>question.question_id)
+              = link_to question.active_question_no, exam_registration_path(:id => @registration, :active_question_no =>question.active_question_no)
 .row
   .col-sm-3.pull-right
     = link_to "Submit", submit_exam_registration_path(@registration), :class => "btn btn-primary"

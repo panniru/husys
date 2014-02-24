@@ -12,15 +12,6 @@ module CoursesHelper
     link_to "New Course", new_course_path, :class => "btn btn-primary"
   end
 
-  private
-  def edit_course(course)
-    link_to "Edit", edit_course_path(course), :class => "btn btn-success"
-  end
-
-  def delete_course(course)
-    link_to "Delete", course, :class => "btn btn-danger", :data => { :confirm => 'Are You Sure ?', :method => :delete }
-  end
-
   def question_btn_group(course)
     upload = link_to "Upload Questions", upload_new_course_questions_path(course)
     add = link_to "Add Question", new_course_question_path(course)
@@ -34,8 +25,22 @@ module CoursesHelper
     btn_group += "<li>#{upload}</li>"
     btn_group += "<li class='divider'></li>"
     btn_group += "<li>#{add}</li>"
+    btn_group += "<li class='divider'></li>"
+    btn_group += "<li>#{descriptive_questions(course)}</li>"
     btn_group += "</ul>"
     btn_group += "</div>"
   end
 
+  private
+  def edit_course(course)
+    link_to "Edit", edit_course_path(course), :class => "btn btn-success"
+  end
+
+  def delete_course(course)
+    link_to "Delete", course, :class => "btn btn-danger", :data => { :confirm => 'Are You Sure ?', :method => :delete }
+  end
+
+  def descriptive_questions(course)
+    link_to "Descriptive Questions", course_descriptive_questions_path(course)
+  end
 end

@@ -4,20 +4,12 @@
     .pull-right
       = link_to "Submit", "#", :class => "btn btn-primary", :rel => "question-nav-submit"
 = form_tag(exam_registration_path(@registration), :method => "post", :id => "ol_exam") do
-  .radio
-    = radio_button_tag(:answer_caught, @question.option_1, @question.option_1 == @question.answer_caught)
-    = label_tag(:label_1, @question.option_1)
-  .radio
-    = radio_button_tag(:answer_caught, @question.option_2, @question.option_2 == @question.answer_caught)
-    = label_tag(:label_2, @question.option_2)
-  .radio
-    = radio_button_tag(:answer_caught, @question.option_3, @question.option_3 == @question.answer_caught)
-    = label_tag(:label_3, @question.option_3)
-  .radio
-    = radio_button_tag(:answer_caught, @question.option_4, @question.option_4 == @question.answer_caught)
-    = label_tag(:label_4, @question.option_4)
-    = hidden_field_tag :question_id, @question.question_id
-    = hidden_field_tag :action_for
+  - if @question.descriptive?
+    = render "descriptive_answer"
+  - else
+    = render "radio_answer"
+  = hidden_field_tag :active_question_no, @question.active_question_no
+  = hidden_field_tag :action_for
 
 %ul.pager
   %li.previous

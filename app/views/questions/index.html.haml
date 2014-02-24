@@ -1,6 +1,5 @@
-.page-header
-  %h2
-    = link_to "Questions", "#"
-    .pull-right
-      = link_to "Add Question", new_course_question_path(@course), :class => "btn btn-primary"
+= render "questions_header"
+
 = render "results"
+
+= will_paginate @questions, param_name: "page", previous_label: h("<"), next_label: h(">")

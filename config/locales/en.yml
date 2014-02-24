@@ -73,6 +73,8 @@ en:
     update:
       success: "Question has been updated"
       fail: "Question not been updated"
+    upload:
+      success: "Question has been uploaded"
   registration:
     create:
       success: "Registration has been registered"

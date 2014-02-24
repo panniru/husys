@@ -2,24 +2,57 @@ class RandomQuestionGenerator
 
   def self.generate_questions(course)
     selected_qtns = []
-    total_questions = course.questions.count
-    (1..course.no_of_questions).each do |no|
-      random_no = Random.rand(1..total_questions)
+    selected_descriptive_qtns = []
+    total_radio_questions = course.questions.count
+    total_descriptive = course.descriptive_questions.count
+
+    (1..course.no_of_radio_questions).each do |no|
+      random_no = Random.rand(1..total_radio_questions)
       while include_question?(random_no, selected_qtns) do
-        random_no = Random.rand(1..total_questions)
+        random_no = Random.rand(1..total_radio_questions)
       end
-      question = Question.find(random_no)
-      selected_qtns << ActiveQuestion.new(:question_id => question.id, :active_question_no => no, :description => question.description, :option_1 => question.option_1, :option_2 => question.option_2, :option_3 => question.option_3, :option_4 => question.option_4)
+      question = load_question(random_no)
+      selected_qtns << ActiveQuestion.new(:question_id => question.id, :active_question_no => no, :description => question.description, :option_1 => question.option_1, :option_2 => question.option_2, :option_3 => question.option_3, :option_4 => question.option_4, :is_descriptive => false)
     end
-    selected_qtns
+
+    (course.no_of_radio_questions+1..course.no_of_questions).each do |no|
+      random_no = Random.rand(1..total_descriptive)
+      while include_question?(random_no, selected_descriptive_qtns) do
+        random_no = Random.rand(1..total_descriptive)
+      end
+      question = load_descriptive_question(random_no)
+      selected_descriptive_qtns << ActiveQuestion.new(:question_id => question.id, :active_question_no => no, :description => question.description, :is_descriptive => true)
+    end
+
+    selected_qtns.concat(selected_descriptive_qtns).shuffle.each_with_index { |qtn, index| qtn.active_question_no = index+1 }
+  end
+
+  def self.load_question(random_no)
+    question = nil
+    begin
+      question = Question.find(random_no)
+    rescue ActiveRecord::RecordNotFound
+      question = load_question(random_no+1)
+    end
+    question
+  end
+
+  def self.load_descriptive_question(random_no)
+    question = nil
+    begin
+      question = DescriptiveQuestion.find(random_no)
+    rescue ActiveRecord::RecordNotFound
+      question = load_descriptive_question(random_no+1)
+    end
+    question
   end
 
   def self.next_question(params, selected_questions)
     prev_qtn = nil
     question = nil
-    if params[:question_id].present?
+    if params[:active_question_no].present?
       selected_questions.each do |qtn|
-        if qtn.question_id.to_s == params[:question_id]
+        if qtn.active_question_no.to_s == params[:active_question_no]
           prev_qtn = qtn
           break
         end
@@ -44,8 +77,8 @@ class RandomQuestionGenerator
 
   private
 
-  def self.include_question?(active_no, questions)
-    matched_questions = questions.select {|question| question.question_id == active_no}
+  def self.include_question?(active_id, questions)
+    matched_questions = questions.select {|question| question.question_id == active_id}
     matched_questions.length > 0
   end
 
@@ -59,5 +92,10 @@ class RandomQuestionGenerator
     attribute :option_2
     attribute :option_3
     attribute :option_4
+    attribute :is_descriptive
+
+    def descriptive?
+      is_descriptive
+    end
   end
 end
