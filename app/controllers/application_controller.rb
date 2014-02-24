@@ -36,8 +36,6 @@ class ApplicationController < ActionController::Base
   def set_time_zone
     min = cookies[:timezone].to_i
     current_user.time_zone ||= ActiveSupport::TimeZone[-min.minutes]
-    logger.fatal "Server Time===========>#{Time.zone.now}"
-    logger.fatal "current_user.time_zone===========>#{current_user.time_zone}"
     session[:system_date] = Time.zone.now.in_time_zone(current_user.time_zone)
   end
 end

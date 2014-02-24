@@ -145,15 +145,9 @@ class RegistrationsController < ApplicationController
   def validate_exam_status
     @exam_status = false
     system_time = session[:system_date]
-    logger.fatal "System Date============>#{session[:system_date]}"
-    logger.fatal "@registration.exam_date============>#{@registration.exam_date}"
     if @registration.exam_date.to_date == system_time.to_date
       start_time = ActiveSupport::TimeZone[current_user.time_zone.name].parse("#{@registration.exam_date} #{@registration.exam_start_time.strftime('%H:%M')}")
       end_time = ActiveSupport::TimeZone[current_user.time_zone.name].parse("#{@registration.exam_date} #{@registration.exam_end_time.strftime('%H:%M')}")
-      logger.fatal "Inside start_time============>#{start_time}"
-      logger.fatal "Inside end_time============>#{end_time}"
-      logger.fatal "Difference============>#{((start_time -  system_time)/60)}"
-      logger.fatal "Exam Status============>#{((start_time -  system_time)/60) <= 10.00 and system_time <= end_time}"
       if ((start_time -  system_time)/60) <= 10.00 and system_time <= end_time
         @exam_status = true
       end
