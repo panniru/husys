@@ -10,7 +10,7 @@ class RegistrationsController < ApplicationController
     @registrations.each do |reg|
       @registration = reg
       validate_exam_status
-      if @exam_status or reg.status == "seeded"
+      if @exam_status or reg.status == "seeded" or session[:system_date] < formatted_start_time
         @active_registrations << reg
       else
         @closed_registrations << reg
@@ -146,7 +146,7 @@ class RegistrationsController < ApplicationController
     @exam_status = false
     system_time = session[:system_date]
     if @registration.exam_date.to_date == system_time.to_date
-      start_time = ActiveSupport::TimeZone[current_user.time_zone.name].parse("#{@registration.exam_date} #{@registration.exam_start_time.strftime('%H:%M')}")
+      start_time = formatted_start_time
       end_time = ActiveSupport::TimeZone[current_user.time_zone.name].parse("#{@registration.exam_date} #{@registration.exam_end_time.strftime('%H:%M')}")
       if ((start_time -  system_time)/60) <= 10.00 and system_time <= end_time
         @exam_status = true
@@ -157,5 +157,10 @@ class RegistrationsController < ApplicationController
   def set_current_user_time
     @registration.current_user_time = session[:system_date]
   end
+
+  def formatted_start_time
+    ActiveSupport::TimeZone[current_user.time_zone.name].parse("#{@registration.exam_date} #{@registration.exam_start_time.strftime('%H:%M')}")
+  end
+
 
 end
