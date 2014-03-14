@@ -35,20 +35,17 @@ class ExamValidator
   private
 
   def analyse_result(right_answers)
-    pass_percent = (right_answers.to_f/course.no_of_questions)*100
-    result = nil
-    case pass_percent
-    when course.pass_criteria_1.to_i..100
-      result = "Distinction"
-    when course.pass_criteria_2.to_i..course.pass_criteria_1.to_i
-      result = "First Class"
-    when course.pass_criteria_3.to_i..course.pass_criteria_2.to_i
-      result = "Average"
-    when course.pass_criteria_4.to_i..course.pass_criteria_3.to_i
-      result = "Passed"
+    pass_percent = (right_answers.to_f/exam.no_of_questions)*100
+    if pass_percent >= exam.pass_criteria_1
+      exam.pass_text_1
+    elsif exam.pass_criteria_2.present? and pass_percent >= exam.pass_criteria_2 and pass_percent < exam.pass_criteria_1
+      exam.pass_text_2
+    elsif exam.pass_criteria_3.present? and pass_percent >= exam.pass_criteria_3 and pass_percent < exam.pass_criteria_2
+      exam.pass_text_3
+    elsif exam.pass_criteria_4.present? and pass_percent >= exam.pass_criteria_4 and pass_percent < exam.pass_criteria_3
+      exam.pass_text_4
     else
-      result = "Failed"
+      "FAIL"
     end
-    result
   end
 end

@@ -10,7 +10,7 @@ class RegistrationsController < ApplicationController
     @registrations.each do |reg|
       @registration = reg
       validate_exam_status
-      if reg.status == "pending" or reg.status == "seeded"
+      if @exam_status or reg.status == "seeded"
         @active_registrations << reg
       else
         @closed_registrations << reg
