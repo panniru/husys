@@ -57,7 +57,7 @@ class QuestionsController < ApplicationController
   def xls_template
     respond_to do |format|
       @question = Question.new
-      format.xls { send_data @question.xls_template(col_sep: "\t")}
+      format.xlsx { send_data @question.xls_template(col_sep: "\t")}
     end
   end
 

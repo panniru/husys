@@ -12,7 +12,7 @@
       %strong Columns: &nbsp;
       description, option_1, option_2, option_3, option_4, answer
       %strong.pull-right
-        = link_to "Download Template", xls_template_course_questions_path(@course, :format => :xls)
+        = link_to "Download Template", xls_template_course_questions_path(@course, :format => :xlsx)
       .form-group
         .col-sm-3.col-sm-offset-3
           = f.file_field :question_file
@@ -24,7 +24,7 @@
       %strong Columns: &nbsp;
       description, answer
       %strong.pull-right
-        = link_to "Download Template", xls_template_descriptive_course_descriptive_questions_path(@course, :format => :xls)
+        = link_to "Download Template", xls_template_descriptive_course_descriptive_questions_path(@course, :format => :xlsx)
       .form-group
         .col-sm-3.col-sm-offset-3
           = f.file_field :descriptive_question_file
